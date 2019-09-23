@@ -14,9 +14,8 @@ public class DataBaseManager {
     private SQLiteDatabase db;
 
     //Variables de configuracion de servicios
-    public  static final String url = "http://ec2-52-91-17-128.compute-1.amazonaws.com/php_maraton/";
-    //public  static final String url = "http://192.168.1.12/php_maraton/";
-    public  static final String pathLogin = "GetDataLogin.php";
+    public  static final String url = "http://test.rally.sepankasuite.com/";
+    public  static final String pathLogin = "checklogin/";
     public  static final String pathQuestions = "getDataQuestions.php";
     public  static final String pathSignup = "putDataSignup.php";
 
@@ -98,8 +97,8 @@ public class DataBaseManager {
     //########################### SERVER OPERATIONS ####################################################
 
     //Metodo para leer respuesta del login en el server
-    public int obtDatosJSONLogin(String response) {
-        int acceso = 0;
+    public boolean obtDatosJSONLogin(String response) {
+        boolean acceso = false;
         String perfil = "";
         String correo = "";
         try {
@@ -108,11 +107,11 @@ public class DataBaseManager {
             JSONArray jsonArray = new JSONArray(response);
             for (int i = 0;i<=jsonArray.length();i++) {
                 // Insertar datos del tipo de usuario para saber que informacion mostrar
-                acceso = Integer.parseInt(jsonArray.getJSONObject(i).getString("id"));
-                perfil = jsonArray.getJSONObject(i).getString("perfil");
-                correo = jsonArray.getJSONObject(i).getString("correo");
+                //acceso = Integer.parseInt(jsonArray.getJSONObject(i).getString("id"));
+                //perfil = jsonArray.getJSONObject(i).getString("perfil");
+                //correo = jsonArray.getJSONObject(i).getString("correo");
                 //Log.d("perfil", perfil);
-                InsertParamsUsers(acceso, correo, "", perfil);
+                //InsertParamsUsers(acceso, correo, "", perfil);
             }
         } catch (Exception e) {
             return acceso;

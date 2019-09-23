@@ -24,12 +24,13 @@
         android:textColorHint="@color/colorAccent">
 
         <EditText
+            android:id="@+id/et_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
             android:ems="10"
+            android:hint="Email"
             android:inputType="text"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -40,12 +41,13 @@
         android:textColorHint="@color/colorAccent">
 
         <EditText
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contraseña"
             android:ems="10"
+            android:hint="Contraseña"
             android:inputType="text"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
