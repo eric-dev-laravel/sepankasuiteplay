@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class DataBaseManager {
 
@@ -99,21 +101,12 @@ public class DataBaseManager {
     //Metodo para leer respuesta del login en el server
     public boolean obtDatosJSONLogin(String response) {
         boolean acceso = false;
-        String perfil = "";
-        String correo = "";
         try {
-            clearDataUsers();
-            //resibimos el arreglo de tipo JSON en una variable JSON
-            JSONArray jsonArray = new JSONArray(response);
-            for (int i = 0;i<=jsonArray.length();i++) {
-                // Insertar datos del tipo de usuario para saber que informacion mostrar
-                //acceso = Integer.parseInt(jsonArray.getJSONObject(i).getString("id"));
-                //perfil = jsonArray.getJSONObject(i).getString("perfil");
-                //correo = jsonArray.getJSONObject(i).getString("correo");
-                //Log.d("perfil", perfil);
-                //InsertParamsUsers(acceso, correo, "", perfil);
-            }
+            //recibimos el arreglo de tipo JSON en una variable JSON
+            JSONObject object = new JSONObject(response);
+            acceso = object.getBoolean("status");
         } catch (Exception e) {
+            Log.d("errorJson", String.valueOf(e));
             return acceso;
         }
         return acceso;
