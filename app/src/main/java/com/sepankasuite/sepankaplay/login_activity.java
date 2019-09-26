@@ -2,7 +2,6 @@ package com.sepankasuite.sepankaplay;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,85 +11,74 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 
 public class login_activity extends AppCompatActivity implements View.OnClickListener {
 
+    //Creamos las variables globales
     private Button btn_acceder, btn_registrarme;
     private EditText et_user, et_password;
 
-    //Variable de instancia de clase
+    //Variable de instancia de clase de manejo en la BD
     DataBaseManager manager;
 
-    private String SERVER_URL = "http://test.rally.sepankasuite.com/";
-    private String SERVER_PATH_GENERIC_METHODS = "checklogin/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_activity);
 
-        //Creamos una nueva instancia de la clase para conectar con servidor
+        //Creamos una nueva instancia de la clase para obtener atributos y metodos
         manager = new DataBaseManager(this);
 
+        //Enlazamos las variables con los objetos fisicos
         btn_acceder = findViewById(R.id.btn_login_acceder);
         btn_registrarme = findViewById(R.id.btn_login_registrarme);
-
         et_user = (EditText) findViewById(R.id.et_user);
         et_password = (EditText) findViewById(R.id.et_password);
 
+        //Generamos el metodo de clic para los botones
         btn_acceder.setOnClickListener(this);
         btn_registrarme.setOnClickListener(this);
     }
 
+    //Este metodo se usa para asignar funcionalidad a los botones cuando se les da clic
     @Override
     public void onClick(View v) {
+        //Recuperamos el Id del elemento al que se le dio clic
         switch (v.getId()){
             case R.id.btn_login_acceder:
                 //Toast.makeText(this, "parametros usuario y contrasela", Toast.LENGTH_LONG).show();
                 //Creamos un nuevo cliente de conexion
                 AsyncHttpClient client = new AsyncHttpClient();
-                //Definimos la URL a la cual sera dirigidio
-                //String url = SERVER_URL + SERVER_PATH_GENERIC_METHODS + "soporte@hallmg.com/" + "Rally2019$/";
-                String url = SERVER_URL + SERVER_PATH_GENERIC_METHODS + et_user.getText().toString() +"/" + et_password.getText().toString() +"/";
-
-                //En caso de no conectar con el servidor se muestra este msg
-                //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
-
-                //Creamos los parametros que mandaremos al php,json,java.etc.
-                //RequestParams params1 = new RequestParams();
-                //params1.put("u", et_user.getText());
-                //params1.put("p", et_password.getText());
-                //params1.put("/", "soporte@hallmg.com");
-                //params1.put("/", "Rally2019$");
-
-                //Log.d("parametros", url);
+                //Definimos la URL a la cual sera dirigidio y recuperamos los datos de las cajas de texto
+                String url = manager.SERVER_URL + manager.SERVER_PATH_CHECKLOGIN + et_user.getText().toString() +"/" + et_password.getText().toString() +"/";
 
                 //Ejecutamos peticion POST para envio de parametros
                 client.post(url, null, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        //Log.d("serverAnswer", new String(responseBody));
-                        //Mostramos el msg en caso de que el Login no sea correcto
-                        //Toast.makeText(getApplicationContext(), "Conexion establecida", Toast.LENGTH_LONG).show();
+                        //Recuperamos el codigo de la operacion 200 significa que respondio el server correctamente y si existe conexion
                         if(statusCode == 200){
+                            //Recibimos la respuesta del servidor en formato JSON y la mandamos a la clase que obtiene los datos
+                            //Asignamos el acceso si fue correcto regresara un true de lo contrario false
                             boolean access = manager.obtDatosJSONLogin(new String(responseBody));
                             if(access == true) {
                                 //Creamos una instancia de la otra ventana
-                                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-                                //Mandamos paramentros a la siguiente ventana
+                                Intent intent1 = new Intent(getApplicationContext(), AppIntroActivity.class);
                                 //Nos aseguramos de cerrar las ventanas activas o que no se
                                 //repitan si es que ya esta abiertas
                                 startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                                //Cerramos la actividad actual para que no este en cola
+                                finish();
                             } else {
-                                //En caso de no conectar con el servidor se muestra este msg
+                                //En caso de conectar con el servidor pero que el acceso sea incorrecto mandara el sig. mensaje
                                 Toast.makeText(getApplicationContext(), "Usuario o Contraseña incorrectos. Verifique sus datos", Toast.LENGTH_SHORT).show();
                             }
 
                         } else {
-                            //En caso de no conectar con el servidor se muestra este msg
+                            //En caso de conectar con el server pero mandar un codigo distinto al 200
                             Toast.makeText(getApplicationContext(), "Ocurrio un detalle al intentar conectar. Code: "+statusCode, Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -99,8 +87,6 @@ public class login_activity extends AppCompatActivity implements View.OnClickLis
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                         //En caso de no conectar con el servidor se muestra este msg
                         Toast.makeText(getApplicationContext(), "Imposible conectar con el servidor.", Toast.LENGTH_SHORT).show();
-                        //Log.d("errorServer", String.valueOf(statusCode));
-                        //Log.d("errorServer", String.valueOf(error));
                     }
                 });
                 break;
@@ -108,7 +94,6 @@ public class login_activity extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_login_registrarme:
                 //Creamos una instancia de la otra ventana
                 Intent intent1 = new Intent(this, signup_activity.class);
-                //Mandamos paramentros a la siguiente ventana
                 //Nos aseguramos de cerrar las ventanas activas o que no se
                 //repitan si es que ya esta abiertas
                 startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SepankaPlay</string>
+
+    <string name="card_title">Titulo del cardview</string>
+    <string name="card_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut lorem massa, laoreet at maximus vitae, eleifend in tellus. Vivamus tincidunt erat in ipsum cursus, a fermentum libero euismod. Sed non ultricies neque.</string>
+    <string name="action_share">Responder</string>
+    <string name="action_explore">Pista</string>
 </resources>

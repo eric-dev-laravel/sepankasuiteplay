@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
 
     /*Crear el nombre de la DB en SQLite, puede o no llevar la extension eso no afecta*/
-    private static final String DB_NAME = "maraton.sqlite";
+    private static final String DB_NAME = "sepankaplay.sqlite";
 
     /*La version de la DB es importante por que al tener una actualizacion se deba cambiar la version
      * y se ejecuta un Metodo de upgrade*/
@@ -20,6 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //Ejecutamos la consulta en la BD
         db.execSQL(DataBaseManager.CREATE_TABLE_USERS);
     }
 

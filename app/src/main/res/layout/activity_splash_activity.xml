@@ -9,11 +9,10 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
         android:id="@+id/iv_imageSplash"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:src="@drawable/splash" />
 
 </RelativeLayout>

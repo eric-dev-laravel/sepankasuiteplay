@@ -16,8 +16,8 @@ public class DataBaseManager {
     private SQLiteDatabase db;
 
     //Variables de configuracion de servicios
-    public  static final String url = "http://test.rally.sepankasuite.com/";
-    public  static final String pathLogin = "checklogin/";
+    public  static final String SERVER_URL = "http://test.rally.sepankasuite.com/";
+    public  static final String SERVER_PATH_CHECKLOGIN = "checklogin/";
     public  static final String pathQuestions = "getDataQuestions.php";
     public  static final String pathSignup = "putDataSignup.php";
 

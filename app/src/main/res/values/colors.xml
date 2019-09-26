@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#C8C5E2</color>
-    <color name="colorPrimaryDark">#7A75B5</color>
-    <color name="colorAccent">#5CC6D0</color>
-    <color name="colorGreenSepanka">#9DD3AF</color>
+    <color name="colorPrimary">#9DD3AF</color>
+    <color name="colorPrimaryDark">#5CC6D0</color>
+    <color name="colorAccent">#C8C5E2</color>
+    <color name="colorPurpleSepanka">#7A75B5</color>
+
+    <color name="colorFacebook">#0000FF</color>
 </resources>
