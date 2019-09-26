@@ -2,16 +2,21 @@ package com.sepankasuite.sepankaplay;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class signup_activity extends AppCompatActivity implements View.OnClickListener {
 
     //Generamos las variables globales
     private Button btn_acceder, btn_registrarse;
+
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,8 @@ public class signup_activity extends AppCompatActivity implements View.OnClickLi
         //Asignamos el evento alos botones al dar clic
         btn_acceder.setOnClickListener(this);
         btn_registrarse.setOnClickListener(this);
+
+
     }
 
     //Este metodo sirve para asignar funciones al dar clic sobre un boton
@@ -44,8 +51,26 @@ public class signup_activity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.btn_signup_registrarse:
                 //Aqui va el codigo para dar se de alta
-                Toast.makeText(this, "Datos de registro", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Datos de registro", Toast.LENGTH_LONG).show();
+                showAlertDialog(R.layout.dialog_postive_layout);
                 break;
         }
+    }
+
+    private void showAlertDialog(int layout){
+        dialogBuilder = new AlertDialog.Builder(signup_activity.this);
+        View layoutView = getLayoutInflater().inflate(layout, null);
+        Button dialogButton = layoutView.findViewById(R.id.btnDialog);
+        dialogBuilder.setView(layoutView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
     }
 }
