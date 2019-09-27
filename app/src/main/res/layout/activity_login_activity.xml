@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:background="@drawable/fondo_inicio"
+    android:background="@drawable/background_init_screen"
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,6 +19,13 @@
             android:layout_marginTop="90dp"
             android:src="@drawable/logo_inicio"/>
 
+        <!--<EditText
+            android:id="@+id/et_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custome_edit_text"
+            android:drawableLeft="@drawable/ic_username"/>-->
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,10 +40,13 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Email"
-                android:inputType="text"
+                android:textColorHint="@color/colorPurpleSepanka"
+                android:inputType="textEmailAddress"
                 android:text="soporte@hallmg.com"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:background="@drawable/custome_edit_text"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/ic_username"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -52,15 +62,18 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Contraseña"
-                android:inputType="text"
+                android:textColorHint="@color/colorPurpleSepanka"
+                android:inputType="textPassword"
                 android:text="Rally2019$"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:background="@drawable/custome_edit_text"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/ic_icon_edittext_password"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_login_acceder"
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
@@ -71,7 +84,7 @@
 
         <Button
             android:id="@+id/btn_login_registrarme"
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"

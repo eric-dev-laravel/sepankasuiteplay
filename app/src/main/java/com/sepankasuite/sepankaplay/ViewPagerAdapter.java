@@ -18,7 +18,8 @@ public class ViewPagerAdapter extends PagerAdapter {
     //Generamos las variables globales
     private Context context;
     private LayoutInflater layoutInflater;
-    private Integer [] images = {R.drawable.slide1, R.drawable.slide2, R.drawable.slide3};
+    private Integer [] images = {R.drawable.banner_1,R.drawable.banner_2,R.drawable.banner_3,R.drawable.banner_4,R.drawable.banner_5,
+            R.drawable.banner_6,R.drawable.banner_7,R.drawable.banner_8,R.drawable.banner_9,};
 
     //Generamos el contructor para recuperar el contexto donde nos encontramo
     public ViewPagerAdapter(Context context) {
@@ -56,12 +57,45 @@ public class ViewPagerAdapter extends PagerAdapter {
             public void onClick(View view) {
                 //Segun la posicion podemos hacer varias opciones
                 if (position == 0){
-                    Toast.makeText(context, "Slide1 Clicked", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "Slide1 Clicked", Toast.LENGTH_LONG).show();
                 } else if (position == 1){
-                    Toast.makeText(context, "Slide2 Clicked", Toast.LENGTH_LONG).show();
-                } else {
+                    //Creamos un nuevo intent de tipo externo para abir el navegador y asignamos la url que abrira
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/evaluacion-del-desempeño"));
+                    //Lanzamos la peticion del nuevo activity externo
+                    context.startActivity(browserIntent);
+                } else if (position == 2){
                     //Creamos un nuevo intent de tipo externo para abir el navegador y asignamos la url que abrira
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/comunicacion-interna"));
+                    //Lanzamos la peticion del nuevo activity externo
+                    context.startActivity(browserIntent);
+                } else if (position == 3){
+                    //Creamos un nuevo intent de tipo externo para abir el navegador y asignamos la url que abrira
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/gestion-de-vacantes"));
+                    //Lanzamos la peticion del nuevo activity externo
+                    context.startActivity(browserIntent);
+                } else if (position == 4){
+                    //Creamos un nuevo intent de tipo externo para abir el navegador y asignamos la url que abrira
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/evaluacion-por-resultados"));
+                    //Lanzamos la peticion del nuevo activity externo
+                    context.startActivity(browserIntent);
+                } else if (position == 5){
+                    //Creamos un nuevo intent de tipo externo para abir el navegador y asignamos la url que abrira
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/diagnostico-de-clima-laboral"));
+                    //Lanzamos la peticion del nuevo activity externo
+                    context.startActivity(browserIntent);
+                } else if (position == 6){
+                    //Creamos un nuevo intent de tipo externo para abir el navegador y asignamos la url que abrira
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/control-de-incidencias"));
+                    //Lanzamos la peticion del nuevo activity externo
+                    context.startActivity(browserIntent);
+                } else if (position == 7){
+                    //Creamos un nuevo intent de tipo externo para abir el navegador y asignamos la url que abrira
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/reconocimiento-al-personal"));
+                    //Lanzamos la peticion del nuevo activity externo
+                    context.startActivity(browserIntent);
+                } else {
+                    //Creamos un nuevo intent de tipo externo para abir el navegador y asignamos la url que abrira
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/capacitacion-en-linea"));
                     //Lanzamos la peticion del nuevo activity externo
                     context.startActivity(browserIntent);
                 }

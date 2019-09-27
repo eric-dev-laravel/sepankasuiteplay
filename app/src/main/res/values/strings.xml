@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">SepankaPlay</string>
 
-    <string name="card_title">Titulo del cardview</string>
-    <string name="card_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut lorem massa, laoreet at maximus vitae, eleifend in tellus. Vivamus tincidunt erat in ipsum cursus, a fermentum libero euismod. Sed non ultricies neque.</string>
-    <string name="action_share">Responder</string>
-    <string name="action_explore">Pista</string>
+    <string name="card_content">
+        Ser líder en el desarrollo de soluciones informáticas altamente productivas para la gestión y desarrollo del talento con profundo valor humano es:
+    </string>
+    <string name="all_questions_text">
+        En este apartado encontraras las preguntas anteriores para que continues participando.
+    </string>
 </resources>

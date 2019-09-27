@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorBackgroundMain"
     tools:context=".MainActivity">
 
     <androidx.viewpager.widget.ViewPager
@@ -20,7 +20,8 @@
         android:id="@+id/SliderDots"
         android:layout_below="@id/viewPager"
         android:orientation="horizontal"
-        android:gravity="center_vertical|center_horizontal"></LinearLayout>
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginBottom="6dp"></LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,37 +50,42 @@
                             android:layout_width="match_parent"
                             android:layout_height="160dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/one" />
+                            android:src="@drawable/ultima_pregunta" />
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
+                            android:background="@color/colorPurpleSepanka"
                             android:padding="16dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
-                                android:text="@string/card_title"
-                                android:textColor="#000"
-                                android:textSize="18sp" />
+                                android:text="Pregunta 1"
+                                android:textStyle="bold"
+                                android:textColor="#FFF"
+                                android:textSize="20sp" />
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/card_content"
-                                android:textColor="#555" />
+                                android:textColor="#FFF" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@color/colorPurpleSepanka"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
                             android:orientation="horizontal">
+
                             <Button
-                                android:layout_width="wrap_content"
+                                android:layout_width="110dp"
                                 android:layout_height="wrap_content"
-                                android:text="@string/action_share" />
-                            <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/action_explore" />
+                                android:background="@drawable/background_button_response"
+                                android:text="Responder"
+                                android:textColor="#FFF"
+                                android:layout_marginBottom="8dp"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -93,12 +99,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/colorPrimaryDark"
                         android:orientation="vertical">
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="160dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/one" />
+                            android:src="@drawable/todas_las_preguntas" />
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -108,27 +115,30 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
-                                android:text="@string/card_title"
-                                android:textColor="#000"
-                                android:textSize="18sp" />
+                                android:text="Anterior"
+                                android:textColor="#FFF"
+                                android:textSize="20sp"
+                                android:textStyle="bold"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/card_content"
-                                android:textColor="#555" />
+                                android:text="@string/all_questions_text"
+                                android:textColor="#FFF" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@color/colorPrimaryDark"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
                             android:orientation="horizontal">
                             <Button
-                                android:layout_width="wrap_content"
+                                android:layout_width="110dp"
                                 android:layout_height="wrap_content"
-                                android:text="@string/action_share" />
-                            <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/action_explore" />
+                                android:background="@drawable/background_button_more"
+                                android:text="Mostrar"
+                                android:textColor="#FFF"
+                                android:layout_marginBottom="8dp"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -146,29 +156,29 @@
             app:menu_fab_label="Nuestras Redes Sociales"
             android:layout_gravity="bottom|end"
             android:layout_alignParentRight="true"
-            app:menu_icon="@drawable/ic_done_white"
+            app:menu_icon="@drawable/ic_share"
             android:layout_alignParentEnd="true">
 
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fab_colorNormal="@color/colorPrimary"
-                android:src="@drawable/ic_navigate_before_white"
-                app:fab_label="Website"/>
+                app:fab_colorNormal="@color/colorPrimaryDark"
+                android:src="@drawable/ic_web"
+                app:fab_label="Página Web"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="facebookIntent"
-                app:fab_colorNormal="@color/colorPrimaryDark"
+                app:fab_colorNormal="@color/colorFloatActionButtonFacebook"
                 android:src="@drawable/ic_facebook"
                 app:fab_label="Facebook"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fab_colorNormal="@color/colorAccent"
-                android:src="@drawable/ic_navigate_before_white"
+                app:fab_colorNormal="@color/colorFloatActionButtonLinkedin"
+                android:src="@drawable/ic_linkedin"
                 app:fab_label="Linkedin"/>
 
         </com.github.clans.fab.FloatingActionMenu>

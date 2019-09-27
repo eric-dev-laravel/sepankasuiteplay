@@ -19,12 +19,18 @@ public class AppIntroActivity extends AppIntro {
         //setContentView(R.layout.activity_app_intro);
 
         //Generamos el numero de elementos que tendra el intro cada uno debe cubrir background, title, description, image
-        addSlide(AppIntroFragment.newInstance("First App Intro", "First App Intro Details",
-                R.drawable.one, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary)));
-        addSlide(AppIntroFragment.newInstance("Second App Intro", "Second App Intro Details",
-                R.drawable.two, ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
-        addSlide(AppIntroFragment.newInstance("Third App Intro", "Third App Intro Details",
-                R.drawable.one, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
+        addSlide(AppIntroFragment.newInstance("BIENVENIDO", "",
+                R.drawable.intro1, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
+        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "",
+                R.drawable.intro2, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
+        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "SEPANKAPLAY es un juego de pistas",
+                R.drawable.intro3, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
+        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "En esta pantalla irán apareciendo preguntas cuyas soluciones están dispersas en el sitio " +
+                        "www.sepankasuite.com y en sus redes sociales",
+                R.drawable.intro4, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
+        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "Dá clic sobre el ícono de pistas que aparecerá en el margen superior derecho de tu dispositivo " +
+                        "para encontrar las respuestas",
+                R.drawable.intro5, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
     }
 
     //Metodo para cambiar de actividad cuando se presiona el boton de hecho

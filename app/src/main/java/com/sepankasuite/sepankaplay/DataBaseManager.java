@@ -18,7 +18,7 @@ public class DataBaseManager {
     //Variables de configuracion de servicios
     public  static final String SERVER_URL = "http://test.rally.sepankasuite.com/";
     public  static final String SERVER_PATH_CHECKLOGIN = "checklogin/";
-    public  static final String pathQuestions = "getDataQuestions.php";
+    public  static final String SERVER_PATH_LAST_QUESTION = "activeQuestions/";
     public  static final String pathSignup = "putDataSignup.php";
 
     /*Esta clase es la encargada de hacer movimientos en la DB*/
@@ -35,10 +35,15 @@ public class DataBaseManager {
 
     //Nombre de campos server
     public static final String CN_ID = "_id";
+    public static final String CN_SYNC = "sincronized";
     //Nombre de campos usuarios
     public static final String CN_USER = "email";
     public static final String CN_PASSWORD = "password";
     public static final String CN_STATE = "state";
+    //Nombre de campos usuarios
+    public static final String CN_ID_QUESTION = "_id_question";
+    public static final String CN_TEXT_QUESTION = "question";
+    public static final String CN_VALUE = "value";
 
     /* ************* TABLAS ***************** */
 
@@ -49,12 +54,27 @@ public class DataBaseManager {
             + CN_PASSWORD + " text not null,"
             + CN_STATE + " text not null);";
 
+    //Sentencia para crear la tabla preguntas
+    public static final String CREATE_TABLE_QUESTIONS = "create table "+TABLE_QUESTIONS+" ("
+            + CN_ID + " integer primary key autoincrement,"
+            + CN_ID_QUESTION + " integer not null,"
+            + CN_TEXT_QUESTION + " text not null,"
+            + CN_VALUE + " integer null,"
+            + CN_STATE + " integer null,"
+            + CN_SYNC + " integer not null);";
+
     /* ****************** METODOS DE INSERTAR ************************** */
 
     //Metodo para insertar usuarios
     public void InsertParamsUsers(int id, String user, String password, String type) {
         //Instruccion para insertar en android
         db.insert(TABLE_USERS, null, generarContentValuesUsers(id, user, password, type));
+    }
+
+    //Metodo para insertar usuarios
+    public void InsertParamsQuestion(int id, String question, int value) {
+        //Instruccion para insertar en android
+        db.insert(TABLE_QUESTIONS, null, generarContentValuesQuestions(id, question, value));
     }
 
     /* ****************** FIN METODOS DE INSERTAR ************************** */
@@ -82,7 +102,6 @@ public class DataBaseManager {
 
     //#########################    CONTENEDORES   ###############################################
 
-
     //Metodo contenedor de valores USUARIOS
     private ContentValues generarContentValuesUsers(int id, String user, String password, String type) {
         ContentValues values = new ContentValues();
@@ -90,6 +109,18 @@ public class DataBaseManager {
         values.put(CN_USER, user);
         values.put(CN_PASSWORD, password);
         values.put(CN_STATE, type);
+
+        return values;
+    }
+
+    //Metodo contenedor de valores Preguntas
+    private ContentValues generarContentValuesQuestions(int id, String question, int value) {
+        ContentValues values = new ContentValues();
+        values.put(CN_ID_QUESTION, id);
+        values.put(CN_ID_QUESTION, question);
+        values.put(CN_VALUE, value);
+        values.put(CN_STATE, 0);
+        values.put(CN_SYNC, 1);
 
         return values;
     }
@@ -112,7 +143,31 @@ public class DataBaseManager {
         return acceso;
     }
 
-    //Metodo para descargar clientes
+    //Metodo para descargar ultima pregunta
+    public String obtDatosJSONLastQuestion(String response) {
+        String cadena = "";
+        try {
+            //recibimos el arreglo de tipo JSON en una variable JSON
+            JSONObject jsonArray = new JSONObject(response);
+            JSONObject jsonObject = jsonArray.getJSONObject("success");
+            for (int i = 0; i < jsonObject.length(); i++){
+                JSONObject jsonArray1 = new JSONObject(jsonObject.toString(i));
+                JSONObject jsonObject1 = jsonArray1.getJSONObject("grupo");
+                for (int a = 0; a < jsonObject1.length(); a++){
+                    JSONObject jsonArray2 = new JSONObject(jsonObject1.toString(a));
+                    JSONObject jsonObject2 = jsonArray2.getJSONObject("respuesta"+a);
+                    for (int b = 0; b < jsonObject2.length(); b++){
+                        Log.d("Numero", String.valueOf(jsonObject2.toString(b)));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.d("error", String.valueOf(e));
+            return cadena;
+        }
+        return cadena;
+    }
+
     public String obtDatosJSON(String response) {
         String cadena = "";
         try {

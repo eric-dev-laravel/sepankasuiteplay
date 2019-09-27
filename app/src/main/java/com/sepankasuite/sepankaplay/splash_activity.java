@@ -30,7 +30,7 @@ public class splash_activity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_activity);
 
         imageView = (ImageView) findViewById(R.id.iv_imageSplash);
-        animation= AnimationUtils.loadAnimation(splash_activity.this,R.anim.rotate_move);
+        animation= AnimationUtils.loadAnimation(splash_activity.this,R.anim.pulse);
         startAnimation();
 
         //Generamos la funcion que lleva el contador interno del tiempo y lo que se hara cuando termine el tiempo

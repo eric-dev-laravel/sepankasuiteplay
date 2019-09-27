@@ -5,5 +5,11 @@
     <color name="colorAccent">#C8C5E2</color>
     <color name="colorPurpleSepanka">#7A75B5</color>
 
-    <color name="colorFacebook">#0000FF</color>
+    <color name="colorBackgroundInit">#FFFFFF</color>
+    <color name="colorBackgroundMain">#E6E7E8</color>
+
+    <color name="colorFloatActionMenu">#7A75B5</color>
+    <color name="colorFloatActionButtonWeb">#5CC6D0</color>
+    <color name="colorFloatActionButtonFacebook">#3B5998 </color>
+    <color name="colorFloatActionButtonLinkedin">#0E76A8</color>
 </resources>

@@ -1,10 +1,15 @@
 package com.sepankasuite.sepankaplay;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -12,10 +17,18 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.github.clans.fab.FloatingActionMenu;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import org.apache.http.Header;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
+
+    //Variable de instancia de clase de manejo en la BD
+    DataBaseManager manager;
+    String msgError;
 
     //Creamos las variables globales
     ViewPager viewPager;
@@ -29,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Creamos una nueva instancia de la clase para obtener atributos y metodos
+        manager = new DataBaseManager(this);
 
         //Enlazar el carrusel de imagenes
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -91,7 +107,21 @@ public class MainActivity extends AppCompatActivity {
         //Creamos una variable para inicializar un loop en el carrusel
         Timer timer = new Timer();
         //Asignamos a nuestro timer el tiempo y la funcion que genera el cambio de imagen, el tiempo debe ser en milisegundos
-        timer.scheduleAtFixedRate(new MyTimerTask(), 2000, 4000);
+        timer.scheduleAtFixedRate(new MyTimerTask(), 4000, 8000);
+
+        new DownloadLastQuestion().execute();
+    }
+
+    //Metodo al hacer clic sobre el floating button de facebook
+    public void facebookIntent(View view){
+        //generalos la URL a donde se dirigira
+        String url = "https://facebook.com/sepankasuite";
+        //Creamos un nuevo intento
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        //Parseamos la url para que sea leida por el app que se seleccione al abrir
+        intent.setData(Uri.parse(url));
+        //Lanzamos el activity nuevo
+        startActivity(intent);
     }
 
     //Proceso en segundo plano que lleva el tiempo transcurrido por elemento dentro del adaptador de imagenes
@@ -107,7 +137,19 @@ public class MainActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(1);
                     } else if (viewPager.getCurrentItem() == 1){
                         viewPager.setCurrentItem(2);
-                    } else {
+                    } else if (viewPager.getCurrentItem() == 2){
+                        viewPager.setCurrentItem(3);
+                    } else if (viewPager.getCurrentItem() == 3){
+                        viewPager.setCurrentItem(4);
+                    } else if (viewPager.getCurrentItem() == 4){
+                        viewPager.setCurrentItem(5);
+                    } else if (viewPager.getCurrentItem() == 5){
+                        viewPager.setCurrentItem(6);
+                    } else if (viewPager.getCurrentItem() == 6){
+                        viewPager.setCurrentItem(7);
+                    } else if (viewPager.getCurrentItem() == 7){
+                        viewPager.setCurrentItem(8);
+                    }  else {
                         viewPager.setCurrentItem(0);
                     }
                 }
@@ -115,15 +157,51 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Metodo al hacer clic sobre el floating button de facebook
-    public void facebookIntent(View view){
-        //generalos la URL a donde se dirigira
-        String url = "https://facebook.com/sepankasuite";
-        //Creamos un nuevo intento
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        //Parseamos la url para que sea leida por el app que se seleccione al abrir
-        intent.setData(Uri.parse(url));
-        //Lanzamos el activity nuevo
-        startActivity(intent);
+    //Proceso en segundo plano para descargar la ultima pregunta activa
+    public class DownloadLastQuestion extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    //Creamos un nuevo cliente de conexion
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    //Definimos la URL a la cual sera dirigidio y recuperamos los datos de las cajas de texto
+                    final String url = manager.SERVER_URL + manager.SERVER_PATH_LAST_QUESTION;
+
+                    //Ejecutamos peticion POST para envio de parametros
+                    client.post(url, null, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            //Log.d("preguntas", String.valueOf(statusCode));
+                            //Recuperamos el codigo de la operacion 200 significa que respondio el server correctamente y si existe conexion
+                            if(statusCode == 200){
+                                //Recibimos la respuesta del servidor en formato JSON y la mandamos a la clase que obtiene los datos
+                                //Asignamos el acceso si fue correcto regresara un true de lo contrario false
+                                manager.obtDatosJSONLastQuestion(new String(responseBody));
+                            } else {
+                                //En caso de conectar con el server pero mandar un codigo distinto al 200
+                                msgError = "Ocurrio un detalle al intentar conectar. Code: "+statusCode;
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                            //En caso de no conectar con el servidor se muestra este msg
+                            msgError ="Imposible conectar con el servidor.";
+                        }
+                    });
+                }
+            };
+            handler.post(runnable);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            //Toast.makeText(getApplicationContext(), "Ocurrio un error al actualizar: " + msgError, Toast.LENGTH_LONG).show();
+        }
     }
 }
