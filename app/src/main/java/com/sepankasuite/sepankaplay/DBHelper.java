@@ -11,7 +11,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /*La version de la DB es importante por que al tener una actualizacion se deba cambiar la version
      * y se ejecuta un Metodo de upgrade*/
-    private  static final int DB_VERSION = 1;
+    private  static final int DB_VERSION = 2;
 
     /*Constructor de la clase es muy importante*/
     public DBHelper(Context context) {
@@ -23,10 +23,11 @@ public class DBHelper extends SQLiteOpenHelper {
         //Ejecutamos la consulta en la BD
         db.execSQL(DataBaseManager.CREATE_TABLE_USERS);
         db.execSQL(DataBaseManager.CREATE_TABLE_QUESTIONS);
+        db.execSQL(DataBaseManager.CREATE_TABLE_ANSWERS_QUESTIONS);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL(DataBaseManager.CREATE_TABLE_ANSWERS_QUESTIONS);
     }
 }

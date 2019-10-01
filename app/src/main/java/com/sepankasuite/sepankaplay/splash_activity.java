@@ -4,14 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.apache.http.Header;
+
 public class splash_activity extends AppCompatActivity {
+
+    //Variable de instancia de clase de manejo en la BD
+    DataBaseManager manager;
+    String msgError;
 
     Animation animation;
     ImageView imageView;
@@ -29,6 +41,9 @@ public class splash_activity extends AppCompatActivity {
         //Enlace de la clase java con el activity
         setContentView(R.layout.activity_splash_activity);
 
+        //Creamos una nueva instancia de la clase para obtener atributos y metodos
+        manager = new DataBaseManager(this);
+
         imageView = (ImageView) findViewById(R.id.iv_imageSplash);
         animation= AnimationUtils.loadAnimation(splash_activity.this,R.anim.pulse);
         startAnimation();
@@ -45,6 +60,8 @@ public class splash_activity extends AppCompatActivity {
                 finish();
             };
         }, SPLASH_DURATION);
+
+        new splash_activity.DownloadAllQuestions().execute();
     }
 
     private void startAnimation(){
@@ -54,5 +71,104 @@ public class splash_activity extends AppCompatActivity {
                 imageView.startAnimation(animation);
             }
         }, 1000);
+    }
+
+    //Proceso en segundo plano para descargar todas las preguntas
+    public class DownloadAllQuestions extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    //Creamos un nuevo cliente de conexion
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    //Definimos la URL a la cual sera dirigidio y recuperamos los datos de las cajas de texto
+                    final String url = manager.SERVER_URL + manager.SERVER_PATH_ALL_QUESTIONS;
+
+                    //Ejecutamos peticion POST para envio de parametros
+                    client.post(url, null, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            //Log.d("preguntas", String.valueOf(statusCode));
+                            //Recuperamos el codigo de la operacion 200 significa que respondio el server correctamente y si existe conexion
+                            if(statusCode == 200){
+                                //Recibimos la respuesta del servidor en formato JSON y la mandamos a la clase que obtiene los datos
+                                //Asignamos el acceso si fue correcto regresara un true de lo contrario false
+                                manager.obtDatosJSONAllQuestions(new String(responseBody));
+                            } else {
+                                //En caso de conectar con el server pero mandar un codigo distinto al 200
+                                msgError = "Ocurrio un detalle al intentar conectar. Code: "+statusCode;
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                            //En caso de no conectar con el servidor se muestra este msg
+                            msgError ="Imposible conectar con el servidor.";
+                        }
+                    });
+                }
+            };
+            handler.post(runnable);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            //Log.d("msg", msgError);
+            //Toast.makeText(getApplicationContext(), "Ocurrio un error al actualizar: " + msgError, Toast.LENGTH_LONG).show();
+
+        }
+    }
+
+    //Proceso en segundo plano para descargar la ultima pregunta activa
+    public class DownloadLastQuestion extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    //Creamos un nuevo cliente de conexion
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    //Definimos la URL a la cual sera dirigidio y recuperamos los datos de las cajas de texto
+                    final String url = manager.SERVER_URL + manager.SERVER_PATH_LAST_QUESTION;
+
+                    //Ejecutamos peticion POST para envio de parametros
+                    client.post(url, null, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            //Log.d("preguntas", String.valueOf(statusCode));
+                            //Recuperamos el codigo de la operacion 200 significa que respondio el server correctamente y si existe conexion
+                            if(statusCode == 200){
+                                //Recibimos la respuesta del servidor en formato JSON y la mandamos a la clase que obtiene los datos
+                                //Asignamos el acceso si fue correcto regresara un true de lo contrario false
+                                manager.obtDatosJSONLastQuestion(new String(responseBody));
+                            } else {
+                                //En caso de conectar con el server pero mandar un codigo distinto al 200
+                                msgError = "Ocurrio un detalle al intentar conectar. Code: "+statusCode;
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                            //En caso de no conectar con el servidor se muestra este msg
+                            msgError ="Imposible conectar con el servidor.";
+                        }
+                    });
+                }
+            };
+            handler.post(runnable);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            //Toast.makeText(getApplicationContext(), "Ocurrio un error al actualizar: " + msgError, Toast.LENGTH_LONG).show();
+
+        }
     }
 }

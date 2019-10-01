@@ -21,16 +21,16 @@ public class AppIntroActivity extends AppIntro {
         //Generamos el numero de elementos que tendra el intro cada uno debe cubrir background, title, description, image
         addSlide(AppIntroFragment.newInstance("BIENVENIDO", "",
                 R.drawable.intro1, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
-        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "",
+        /*addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "",
                 R.drawable.intro2, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
         addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "SEPANKAPLAY es un juego de pistas",
-                R.drawable.intro3, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
+                R.drawable.intro3, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));*/
         addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "En esta pantalla irán apareciendo preguntas cuyas soluciones están dispersas en el sitio " +
                         "www.sepankasuite.com y en sus redes sociales",
-                R.drawable.intro4, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
+                R.drawable.intro4, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
         addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "Dá clic sobre el ícono de pistas que aparecerá en el margen superior derecho de tu dispositivo " +
                         "para encontrar las respuestas",
-                R.drawable.intro5, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
+                R.drawable.intro5, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
     }
 
     //Metodo para cambiar de actividad cuando se presiona el boton de hecho

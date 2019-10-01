@@ -1,5 +1,6 @@
 package com.sepankasuite.sepankaplay;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,8 +8,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,11 +28,13 @@ import org.apache.http.Header;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     //Variable de instancia de clase de manejo en la BD
     DataBaseManager manager;
     String msgError;
+    Button btn_resp_ult_preg;
+    Button btn_all_questions;
 
     //Creamos las variables globales
     ViewPager viewPager;
@@ -38,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
     FloatingActionMenu floatingActionMenu;
 
+    TextView tv_pregunta_ultima;
+    TextView tv_numero_pregunta;
+    Cursor cursor;
+    String pregunta = "";
+    int id_ultima_pre = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
 
         //Creamos una nueva instancia de la clase para obtener atributos y metodos
         manager = new DataBaseManager(this);
+
+        //Enlazar el textview con el objeto
+        tv_pregunta_ultima = findViewById(R.id.tv_pregunta_ultima);
+        tv_numero_pregunta = findViewById(R.id.tv_numero_pregunta);
+        btn_resp_ult_preg = findViewById(R.id.btn_responder_ultima_pregunta);
+        btn_all_questions = findViewById(R.id.btn_all_questions);
+        btn_resp_ult_preg.setOnClickListener(this);
+        btn_all_questions.setOnClickListener(this);
 
         //Enlazar el carrusel de imagenes
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -59,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
         //Se asigna el adaptador al visor de imagenes
         viewPager.setAdapter(viewPagerAdapter);
-
 
         //Recuperamos el numero de imagenes que tiene el adaptador
         dotscount = viewPagerAdapter.getCount();
@@ -102,14 +121,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         //Creamos una variable para inicializar un loop en el carrusel
         Timer timer = new Timer();
         //Asignamos a nuestro timer el tiempo y la funcion que genera el cambio de imagen, el tiempo debe ser en milisegundos
         timer.scheduleAtFixedRate(new MyTimerTask(), 4000, 8000);
 
         new DownloadLastQuestion().execute();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_responder_ultima_pregunta:
+                //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                //Creamos una instancia de la otra ventana
+                Intent intent = new Intent(MainActivity.this, Questions_activity.class);
+                //Mandamos paramentros a la siguiente ventana
+                intent.putExtra("idPregunta", String.valueOf(id_ultima_pre));
+                //Nos aseguramos de cerrar las ventanas activas o que no se
+                //repitan si es que ya esta abiertas
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                break;
+            case R.id.btn_all_questions:
+                //Creamos una instancia de la otra ventana
+                Intent intent2 = new Intent(MainActivity.this, TodasPreguntas.class);
+                //Nos aseguramos de cerrar las ventanas activas o que no se
+                //repitan si es que ya esta abiertas
+                startActivity(intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                break;
+        }
     }
 
     //Metodo al hacer clic sobre el floating button de facebook
@@ -202,6 +242,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             //Toast.makeText(getApplicationContext(), "Ocurrio un error al actualizar: " + msgError, Toast.LENGTH_LONG).show();
+            cursor = manager.selectDataPregunta();
+
+            if (cursor.moveToLast()){
+                do{
+                    id_ultima_pre = Integer.parseInt(cursor.getString(1));
+                    pregunta = cursor.getString(2);
+                } while (cursor.moveToNext());
+            } else {
+                pregunta = "No se actualizo la pregunta";
+            }
+            tv_numero_pregunta.setText("Pregunta "+id_ultima_pre);
+            tv_pregunta_ultima.setText(pregunta);
         }
     }
 }

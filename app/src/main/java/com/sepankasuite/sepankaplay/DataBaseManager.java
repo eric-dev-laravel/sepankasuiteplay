@@ -18,8 +18,8 @@ public class DataBaseManager {
     //Variables de configuracion de servicios
     public  static final String SERVER_URL = "http://test.rally.sepankasuite.com/";
     public  static final String SERVER_PATH_CHECKLOGIN = "checklogin/";
-    public  static final String SERVER_PATH_LAST_QUESTION = "activeQuestions/";
-    public  static final String pathSignup = "putDataSignup.php";
+    public  static final String SERVER_PATH_LAST_QUESTION = "lastQuestionModif/";
+    public  static final String SERVER_PATH_ALL_QUESTIONS = "activeQuestions/";
 
     /*Esta clase es la encargada de hacer movimientos en la DB*/
 
@@ -29,7 +29,7 @@ public class DataBaseManager {
     //Nombre d ela tabla de preguntas
     public static final String TABLE_QUESTIONS = "questions";
     //Nombre d ela tabla de respuestas de las preguntas
-    public static final String TABLE_QUESTIONS_ANSWERS = "questions_answers";
+    public static final String TABLE_ANSWERS_QUESTIONS = "answers_questions";
     //Nombre d ela tabla de respuestas de los usuarios
     public static final String TABLE_ANSWERS = "user_answers";
 
@@ -40,10 +40,13 @@ public class DataBaseManager {
     public static final String CN_USER = "email";
     public static final String CN_PASSWORD = "password";
     public static final String CN_STATE = "state";
-    //Nombre de campos usuarios
+    //Nombre de campos preguntas
     public static final String CN_ID_QUESTION = "_id_question";
     public static final String CN_TEXT_QUESTION = "question";
     public static final String CN_VALUE = "value";
+    //Nombre de campos preguntas
+    public static final String CN_ID_ANSWER = "_id_answer";
+    public static final String CN_TEXT_ANSWER = "answer";
 
     /* ************* TABLAS ***************** */
 
@@ -57,8 +60,18 @@ public class DataBaseManager {
     //Sentencia para crear la tabla preguntas
     public static final String CREATE_TABLE_QUESTIONS = "create table "+TABLE_QUESTIONS+" ("
             + CN_ID + " integer primary key autoincrement,"
-            + CN_ID_QUESTION + " integer not null,"
+            + CN_ID_QUESTION + " integer not null unique,"
             + CN_TEXT_QUESTION + " text not null,"
+            + CN_VALUE + " integer null,"
+            + CN_STATE + " integer null,"
+            + CN_SYNC + " integer not null);";
+
+    //Sentencia para crear la tabla preguntas
+    public static final String CREATE_TABLE_ANSWERS_QUESTIONS = "create table "+TABLE_ANSWERS_QUESTIONS+" ("
+            + CN_ID + " integer primary key autoincrement,"
+            + CN_ID_QUESTION + " integer not null,"
+            + CN_ID_ANSWER + " integer not null unique,"
+            + CN_TEXT_ANSWER + " text not null,"
             + CN_VALUE + " integer null,"
             + CN_STATE + " integer null,"
             + CN_SYNC + " integer not null);";
@@ -71,10 +84,16 @@ public class DataBaseManager {
         db.insert(TABLE_USERS, null, generarContentValuesUsers(id, user, password, type));
     }
 
-    //Metodo para insertar usuarios
-    public void InsertParamsQuestion(int id, String question, int value) {
+    //Metodo para insertar preguntas
+    public void InsertParamsQuestion(int id_question, String question) {
         //Instruccion para insertar en android
-        db.insert(TABLE_QUESTIONS, null, generarContentValuesQuestions(id, question, value));
+        db.insert(TABLE_QUESTIONS, null, generarContentValuesQuestions(id_question, question));
+    }
+
+    //Metodo para insertar preguntas
+    public void InsertParamsAnswer(int id_question, int id_answer, String answer, int value) {
+        //Instruccion para insertar en android
+        db.insert(TABLE_ANSWERS_QUESTIONS, null, generarContentValuesAnswerQuestions(id_question, id_answer, answer, value));
     }
 
     /* ****************** FIN METODOS DE INSERTAR ************************** */
@@ -90,12 +109,28 @@ public class DataBaseManager {
 
     /* ****************** METODOS DE SELECCIONAR ************************** */
 
-    public Cursor selectDataTipoUsuario() {
+    public Cursor selectDataPregunta() {
         //Se crea el array de las columnas que seran consultadas
-        String[] columnas = new String[]{CN_STATE, CN_USER};
+        String[] columnas = new String[]{CN_ID, CN_ID_QUESTION, CN_TEXT_QUESTION};
 
         //Recupera la informacion del estatus que queremos
-        return db.query(TABLE_USERS, columnas, null, null, null, null, null);
+        return db.query(TABLE_QUESTIONS, columnas, null, null, null, null, CN_ID_QUESTION + " ASC");
+    }
+
+    public Cursor checkIfExistDataQuestion(int id) {
+        //Se crea el array de las columnas que seran consultadas
+        String[] columnas = new String[]{CN_ID, CN_ID_QUESTION, CN_TEXT_QUESTION};
+        String[] args = new String[] {String.valueOf(id)};
+        //Recupera la informacion del estatus que queremos
+        return db.query(TABLE_QUESTIONS, columnas, "_id_question=?", args, null, null, null);
+    }
+
+    public Cursor showAnswerForQuestion(int id_question) {
+        //Se crea el array de las columnas que seran consultadas
+        String[] columnas = new String[]{CN_ID, CN_ID_QUESTION, CN_ID_ANSWER, CN_TEXT_ANSWER, CN_VALUE};
+        String[] args = new String[] {String.valueOf(id_question)};
+        //Recupera la informacion del estatus que queremos
+        return db.query(TABLE_ANSWERS_QUESTIONS, columnas, "_id_question=?", args, null, null, null);
     }
 
     /* ****************** FIN METODOS DE SELECCIONAR ************************** */
@@ -114,14 +149,27 @@ public class DataBaseManager {
     }
 
     //Metodo contenedor de valores Preguntas
-    private ContentValues generarContentValuesQuestions(int id, String question, int value) {
+    private ContentValues generarContentValuesQuestions(int id_question, String question) {
         ContentValues values = new ContentValues();
-        values.put(CN_ID_QUESTION, id);
-        values.put(CN_ID_QUESTION, question);
+        values.put(CN_ID_QUESTION, id_question);
+        values.put(CN_TEXT_QUESTION, question);
+        values.put(CN_VALUE, 0);
+        values.put(CN_STATE, 0);
+        values.put(CN_SYNC, 1);
+        //Log.d("valores", String.valueOf(values));
+        return values;
+    }
+
+    //Metodo contenedor de valores Preguntas
+    private ContentValues generarContentValuesAnswerQuestions(int id_question, int id_answer, String answer, int value) {
+        ContentValues values = new ContentValues();
+        values.put(CN_ID_QUESTION, id_question);
+        values.put(CN_ID_ANSWER, id_answer);
+        values.put(CN_TEXT_ANSWER, answer);
         values.put(CN_VALUE, value);
         values.put(CN_STATE, 0);
         values.put(CN_SYNC, 1);
-
+        Log.d("respuestas_v", String.valueOf(values));
         return values;
     }
 
@@ -144,28 +192,90 @@ public class DataBaseManager {
     }
 
     //Metodo para descargar ultima pregunta
+    public String obtDatosJSONAllQuestions(String response) {
+        String pregunta = "";
+        int id_pregunta_server = 0;
+        try {
+            //recibimos el arreglo de tipo JSON en una variable JSON
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("success");
+            for (int a = 0; a < jsonArray.length(); a++){
+                String stringPreguntas = jsonArray.getJSONObject(a).getString("pregunta_"+a);
+                JSONObject jsonObjectPreguntas = new JSONObject(stringPreguntas);
+
+                int idPregunta = Integer.parseInt(jsonObjectPreguntas.getString("id"));
+                String stringPregunta = jsonObjectPreguntas.getString("pregunta");
+                Cursor cursor = checkIfExistDataQuestion(idPregunta);
+                if (cursor.getCount() <= 0){
+                    InsertParamsQuestion(idPregunta, stringPregunta);
+                }
+
+                String stringRepuestas = jsonArray.getJSONObject(a).getString("respuestas");
+                JSONObject jsonObjectRespuestas = new JSONObject(stringRepuestas);
+                for (int b = 0; b < jsonObjectRespuestas.length(); b++){
+                    JSONObject jsonObjectRespuestasInterno = jsonObjectRespuestas.getJSONObject("respuesta_"+b);
+
+                    int idPreguntaInterna = Integer.parseInt(jsonObjectRespuestasInterno.getString("id_pregunta"));
+                    int idRespuestaInterna = Integer.parseInt(jsonObjectRespuestasInterno.getString("id_respuesta"));
+                    String opcionInterna = jsonObjectRespuestasInterno.getString("opcion");
+                    int correctaInterna = Integer.parseInt(jsonObjectRespuestasInterno.getString("correcta"));
+
+                    InsertParamsAnswer(idPreguntaInterna, idRespuestaInterna, opcionInterna, correctaInterna);
+                    //Log.d("allQuestion",correctaInterna);
+                }
+            }
+        } catch (Exception e) {
+            Log.d("error", String.valueOf(e));
+            return null;
+        }
+        return null;
+    }
+
+    //Metodo para descargar ultima pregunta
     public String obtDatosJSONLastQuestion(String response) {
-        String cadena = "";
+        String pregunta = "";
+        int id_pregunta_server = 0;
         try {
             //recibimos el arreglo de tipo JSON en una variable JSON
             JSONObject jsonArray = new JSONObject(response);
             JSONObject jsonObject = jsonArray.getJSONObject("success");
-            for (int i = 0; i < jsonObject.length(); i++){
-                JSONObject jsonArray1 = new JSONObject(jsonObject.toString(i));
-                JSONObject jsonObject1 = jsonArray1.getJSONObject("grupo");
-                for (int a = 0; a < jsonObject1.length(); a++){
-                    JSONObject jsonArray2 = new JSONObject(jsonObject1.toString(a));
-                    JSONObject jsonObject2 = jsonArray2.getJSONObject("respuesta"+a);
-                    for (int b = 0; b < jsonObject2.length(); b++){
-                        Log.d("Numero", String.valueOf(jsonObject2.toString(b)));
+
+            id_pregunta_server = Integer.parseInt(jsonObject.getString("id_pregunta"));
+            pregunta = jsonObject.getString("pregunta");
+
+            Cursor cursor = checkIfExistDataQuestion(id_pregunta_server);
+                if (cursor.getCount() <= 0){
+                InsertParamsQuestion(id_pregunta_server, pregunta);
+
+                for (int i = 0; i < 1; i++){
+                    JSONObject jsonArray1 = new JSONObject(jsonObject.toString(i));
+                    //Log.d("Numero", String.valueOf(jsonArray1));
+                    JSONObject jsonObject1 = jsonArray1.getJSONObject("grupo");
+                    for (int a = 0; a < jsonObject1.length(); a++){
+                        JSONObject jsonArray2 = new JSONObject(jsonObject1.toString(a));
+                        JSONObject jsonObject2 = jsonArray2.getJSONObject("respuesta"+a);
+
+                        int id_respuesta = Integer.parseInt(jsonObject2.getString("id"));
+                        String respuesta = jsonObject2.getString("texto");
+                        int es_correcta = Integer.parseInt(jsonObject2.getString("correcta"));
+
+                        //Log.d("id_pregunta", String.valueOf(id_pregunta_server));
+                        //Log.d("id_respuesta", String.valueOf(id_respuesta));
+                        //Log.d("respuesta", respuesta);
+                        //Log.d("valor_es", String.valueOf(es_correcta));
+
+                        InsertParamsAnswer(id_pregunta_server, id_respuesta, respuesta, es_correcta);
+                        /*for (int b = 0; b < 1; b++){
+                            //Log.d("Respuestas", String.valueOf(jsonObject2.toString(b)));
+                        }*/
                     }
                 }
             }
         } catch (Exception e) {
             Log.d("error", String.valueOf(e));
-            return cadena;
+            return null;
         }
-        return cadena;
+        return null;
     }
 
     public String obtDatosJSON(String response) {
