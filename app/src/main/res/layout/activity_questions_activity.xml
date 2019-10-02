@@ -42,32 +42,28 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="4dp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/button_green_around"/>
+            android:textColor="#FFFFFF"/>
         <Button
             android:id="@+id/btn_respuesta2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="4dp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/button_green_around"/>
+            android:textColor="#FFFFFF"/>
         <Button
             android:id="@+id/btn_respuesta3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="4dp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/button_green_around"/>
+            android:textColor="#FFFFFF"/>
         <Button
             android:id="@+id/btn_respuesta4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="4dp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/button_green_around"/>
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 

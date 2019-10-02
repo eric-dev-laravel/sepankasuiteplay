@@ -15,6 +15,7 @@ public class TodasPreguntas extends AppCompatActivity {
     //Variable de instancia de clase de manejo en la BD
     DataBaseManager manager;
     Cursor cursor;
+    Cursor cursor_respuesta_usuario;
 
     Button btn_pregunta1,btn_pregunta2,btn_pregunta3,btn_pregunta4,btn_pregunta5,btn_pregunta6,btn_pregunta7;
 
@@ -36,21 +37,35 @@ public class TodasPreguntas extends AppCompatActivity {
 
         Drawable bgColorGreenActive = getResources().getDrawable(R.drawable.button_green_around);
         Drawable bgColorGreen = getResources().getDrawable(R.drawable.button_green_low_around);
-
+        int colorTextSC = getResources().getColor(R.color.colorBackgroundInit);
         int colorTextPC = getResources().getColor(R.color.colorTextPreguntaContestada);
 
-        btn_pregunta1.setBackground(bgColorGreen);
-        btn_pregunta1.setTextColor(colorTextPC);
-
+        btn_pregunta1.setBackground(bgColorGreenActive);
+        btn_pregunta1.setTextColor(colorTextSC);
         btn_pregunta2.setBackground(bgColorGreenActive);
+        btn_pregunta2.setTextColor(colorTextSC);
+        btn_pregunta3.setBackground(bgColorGreenActive);
+        btn_pregunta3.setTextColor(colorTextSC);
+        btn_pregunta4.setBackground(bgColorGreenActive);
+        btn_pregunta4.setTextColor(colorTextSC);
+        btn_pregunta5.setBackground(bgColorGreenActive);
+        btn_pregunta5.setTextColor(colorTextSC);
+        btn_pregunta6.setBackground(bgColorGreenActive);
+        btn_pregunta6.setTextColor(colorTextSC);
+        btn_pregunta7.setBackground(bgColorGreenActive);
+        btn_pregunta7.setTextColor(colorTextSC);
 
         cursor = manager.selectDataPregunta();
         cursor.moveToFirst();
         int number = 1;
         while (!cursor.isAfterLast()){
             final int idPregunta = Integer.parseInt(cursor.getString(1));
-            //Log.d("idPreguntas", idPregunta);
             if ( idPregunta == 1){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta1.setBackground(bgColorGreen);
+                    btn_pregunta1.setTextColor(colorTextPC);
+                }
                 //Desaparecer un boton
                 btn_pregunta1.setVisibility(View.VISIBLE);
                 btn_pregunta1.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +82,11 @@ public class TodasPreguntas extends AppCompatActivity {
                     }
                 });
             } else if( idPregunta == 2){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta2.setBackground(bgColorGreen);
+                    btn_pregunta2.setTextColor(colorTextPC);
+                }
                 //Desaparecer un boton
                 btn_pregunta2.setVisibility(View.VISIBLE);
                 btn_pregunta2.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +103,11 @@ public class TodasPreguntas extends AppCompatActivity {
                     }
                 });
             } else if( idPregunta == 3){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta3.setBackground(bgColorGreen);
+                    btn_pregunta3.setTextColor(colorTextPC);
+                }
                 //Desaparecer un boton
                 btn_pregunta3.setVisibility(View.VISIBLE);
                 btn_pregunta3.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +124,11 @@ public class TodasPreguntas extends AppCompatActivity {
                     }
                 });
             } else if( idPregunta == 4){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta4.setBackground(bgColorGreen);
+                    btn_pregunta4.setTextColor(colorTextPC);
+                }
                 //Desaparecer un boton
                 btn_pregunta4.setVisibility(View.VISIBLE);
                 btn_pregunta4.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +145,11 @@ public class TodasPreguntas extends AppCompatActivity {
                     }
                 });
             } else if( idPregunta == 5){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta5.setBackground(bgColorGreen);
+                    btn_pregunta5.setTextColor(colorTextPC);
+                }
                 //Desaparecer un boton
                 btn_pregunta5.setVisibility(View.VISIBLE);
                 btn_pregunta5.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +166,11 @@ public class TodasPreguntas extends AppCompatActivity {
                     }
                 });
             } else if( idPregunta == 6){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta6.setBackground(bgColorGreen);
+                    btn_pregunta6.setTextColor(colorTextPC);
+                }
                 //Desaparecer un boton
                 btn_pregunta6.setVisibility(View.VISIBLE);
                 btn_pregunta7.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +187,11 @@ public class TodasPreguntas extends AppCompatActivity {
                     }
                 });
             } else if( idPregunta == 7){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta7.setBackground(bgColorGreen);
+                    btn_pregunta7.setTextColor(colorTextPC);
+                }
                 //Desaparecer un boton
                 btn_pregunta7.setVisibility(View.VISIBLE);
                 btn_pregunta7.setOnClickListener(new View.OnClickListener() {

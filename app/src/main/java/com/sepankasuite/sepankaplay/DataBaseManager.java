@@ -124,6 +124,20 @@ public class DataBaseManager {
 
     /* ****************** FIN METODOS DE BORRAR ************************** */
 
+    /* ****************** METODOS DE UPDATE ************************** */
+
+    //Editar un campo en la tabla de Preguntas
+    public void updateDataQuestionState(int idPregunta){
+        ContentValues columnas = new ContentValues();
+        columnas.put(CN_STATE, 1);
+
+        String[] args = new String[] {String.valueOf(idPregunta)};
+
+        db.update(TABLE_QUESTIONS, columnas, "_id_question=?", args);
+    }
+
+    /* ****************** FIN METODOS DE UPDATE ************************** */
+
     /* ****************** METODOS DE SELECCIONAR ************************** */
     public Cursor selectDataUsers() {
         //Se crea el array de las columnas que seran consultadas
@@ -135,7 +149,7 @@ public class DataBaseManager {
 
     public Cursor selectDataPregunta() {
         //Se crea el array de las columnas que seran consultadas
-        String[] columnas = new String[]{CN_ID, CN_ID_QUESTION, CN_TEXT_QUESTION};
+        String[] columnas = new String[]{CN_ID, CN_ID_QUESTION, CN_TEXT_QUESTION, CN_STATE};
 
         //Recupera la informacion del estatus que queremos
         return db.query(TABLE_QUESTIONS, columnas, null, null, null, null, CN_ID_QUESTION + " ASC");
@@ -143,7 +157,7 @@ public class DataBaseManager {
 
     public Cursor checkIfExistDataQuestion(int id) {
         //Se crea el array de las columnas que seran consultadas
-        String[] columnas = new String[]{CN_ID, CN_ID_QUESTION, CN_TEXT_QUESTION};
+        String[] columnas = new String[]{CN_ID, CN_ID_QUESTION, CN_TEXT_QUESTION, CN_STATE};
         String[] args = new String[] {String.valueOf(id)};
         //Recupera la informacion del estatus que queremos
         return db.query(TABLE_QUESTIONS, columnas, "_id_question=?", args, null, null, null);
@@ -155,6 +169,14 @@ public class DataBaseManager {
         String[] args = new String[] {String.valueOf(id_question)};
         //Recupera la informacion del estatus que queremos
         return db.query(TABLE_ANSWERS_QUESTIONS, columnas, "_id_question=?", args, null, null, null);
+    }
+
+    public Cursor showUserAnswerForQuestion(int id_question) {
+        //Se crea el array de las columnas que seran consultadas
+        String[] columnas = new String[]{CN_ID_QUESTION, CN_ID_ANSWER};
+        String[] args = new String[] {String.valueOf(id_question)};
+        //Recupera la informacion del estatus que queremos
+        return db.query(TABLE_ANSWERS_USERS, columnas, "_id_question=?", args, null, null, null);
     }
 
     /* ****************** FIN METODOS DE SELECCIONAR ************************** */
@@ -218,14 +240,14 @@ public class DataBaseManager {
         try {
             //recibimos el arreglo de tipo JSON en una variable JSON
             JSONObject object = new JSONObject(response);
-            JSONObject jsonArray = object.getJSONObject("status");
+            JSONObject jsonArray = object.getJSONObject("success");
             acceso = jsonArray.getBoolean("existe");
             id_user = jsonArray.getInt("id_user");
 
+            Log.d("response_user1", String.valueOf(acceso));
+            Log.d("response_user2", String.valueOf(id_user));
 
             InsertParamsUsers(id_user, user, psw);
-            //Log.d("response_user1", String.valueOf(acceso));
-            //Log.d("response_user2", String.valueOf(id_user));
         } catch (Exception e) {
             Log.d("errorJson", String.valueOf(e));
             return acceso;
