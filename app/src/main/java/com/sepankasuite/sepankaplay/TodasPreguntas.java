@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,16 @@ public class TodasPreguntas extends AppCompatActivity {
         btn_pregunta5 = findViewById(R.id.btn_pregunta5);
         btn_pregunta6 = findViewById(R.id.btn_pregunta6);
         btn_pregunta7 = findViewById(R.id.btn_pregunta7);
+
+        Drawable bgColorGreenActive = getResources().getDrawable(R.drawable.button_green_around);
+        Drawable bgColorGreen = getResources().getDrawable(R.drawable.button_green_low_around);
+
+        int colorTextPC = getResources().getColor(R.color.colorTextPreguntaContestada);
+
+        btn_pregunta1.setBackground(bgColorGreen);
+        btn_pregunta1.setTextColor(colorTextPC);
+
+        btn_pregunta2.setBackground(bgColorGreenActive);
 
         cursor = manager.selectDataPregunta();
         cursor.moveToFirst();

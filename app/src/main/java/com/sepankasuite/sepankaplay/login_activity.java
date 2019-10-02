@@ -59,11 +59,12 @@ public class login_activity extends AppCompatActivity implements View.OnClickLis
                 client.post(url, null, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
                         //Recuperamos el codigo de la operacion 200 significa que respondio el server correctamente y si existe conexion
                         if(statusCode == 200){
                             //Recibimos la respuesta del servidor en formato JSON y la mandamos a la clase que obtiene los datos
                             //Asignamos el acceso si fue correcto regresara un true de lo contrario false
-                            boolean access = manager.obtDatosJSONLogin(new String(responseBody));
+                            boolean access = manager.obtDatosJSONLogin(new String(responseBody), et_user.getText().toString(), et_password.getText().toString());
                             if(access == true) {
                                 //Creamos una instancia de la otra ventana
                                 Intent intent1 = new Intent(getApplicationContext(), AppIntroActivity.class);

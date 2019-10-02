@@ -190,7 +190,7 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private void showAlertDialog(int layout, String respuesta){
+    private void showAlertDialog(int layout, final String respuesta){
         dialogBuilder = new AlertDialog.Builder(Questions_activity.this);
         View layoutView = getLayoutInflater().inflate(layout, null);
         Button dialogButton = layoutView.findViewById(R.id.btnDialogRegresar);
@@ -212,7 +212,7 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
         dialogButtonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(Questions_activity.this, "Aceptar", Toast.LENGTH_LONG).show();
+                Toast.makeText(Questions_activity.this, "Pregunta, Respuesta, id_user "+idUltPregunta+", "+respuesta+", 1", Toast.LENGTH_LONG).show();
             }
         });
     }

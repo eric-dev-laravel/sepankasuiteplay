@@ -31,12 +31,13 @@ public class DataBaseManager {
     //Nombre d ela tabla de respuestas de las preguntas
     public static final String TABLE_ANSWERS_QUESTIONS = "answers_questions";
     //Nombre d ela tabla de respuestas de los usuarios
-    public static final String TABLE_ANSWERS = "user_answers";
+    public static final String TABLE_ANSWERS_USERS = "answers_users";
 
     //Nombre de campos server
     public static final String CN_ID = "_id";
     public static final String CN_SYNC = "sincronized";
     //Nombre de campos usuarios
+    public static final String CN_ID_USER = "id_user";
     public static final String CN_USER = "email";
     public static final String CN_PASSWORD = "password";
     public static final String CN_STATE = "state";
@@ -53,6 +54,7 @@ public class DataBaseManager {
     //Sentencia para crear la tabla usuarios
     public static final String CREATE_TABLE_USERS = "create table "+TABLE_USERS+" ("
             + CN_ID + " integer primary key autoincrement,"
+            + CN_ID_USER + " integer unique,"
             + CN_USER + " text not null,"
             + CN_PASSWORD + " text not null,"
             + CN_STATE + " text not null);";
@@ -76,12 +78,23 @@ public class DataBaseManager {
             + CN_STATE + " integer null,"
             + CN_SYNC + " integer not null);";
 
+    //Sentencia para crear la tabla respuestas por usuario
+    public static final String CREATE_TABLE_ANSWERS_USERS = "create table "+TABLE_ANSWERS_USERS+" ("
+            + CN_ID + " integer primary key autoincrement,"
+            + CN_ID_QUESTION + " integer not null,"
+            + CN_ID_ANSWER + " integer not null unique,"
+            + CN_ID_USER + " text not null,"
+            + CN_SYNC + " integer not null);";
+
+    public static final String UPDATE_TABLE_USERS = "alter table "+TABLE_USERS+" add column "
+            + CN_ID_USER + " integer;";
+
     /* ****************** METODOS DE INSERTAR ************************** */
 
     //Metodo para insertar usuarios
-    public void InsertParamsUsers(int id, String user, String password, String type) {
+    public void InsertParamsUsers(int id_user, String user, String password) {
         //Instruccion para insertar en android
-        db.insert(TABLE_USERS, null, generarContentValuesUsers(id, user, password, type));
+        db.insert(TABLE_USERS, null, generarContentValuesUsers(id_user, user, password));
     }
 
     //Metodo para insertar preguntas
@@ -90,12 +103,16 @@ public class DataBaseManager {
         db.insert(TABLE_QUESTIONS, null, generarContentValuesQuestions(id_question, question));
     }
 
-    //Metodo para insertar preguntas
+    //Metodo para insertar respuestas de preguntas
     public void InsertParamsAnswer(int id_question, int id_answer, String answer, int value) {
         //Instruccion para insertar en android
         db.insert(TABLE_ANSWERS_QUESTIONS, null, generarContentValuesAnswerQuestions(id_question, id_answer, answer, value));
     }
 
+    public void InsertParamsAnswerUsers(int id_question, int id_answer, int id_user) {
+        //Instruccion para insertar en android
+        db.insert(TABLE_ANSWERS_USERS, null, generarContentValuesAnswerUsers(id_question, id_answer, id_user));
+    }
     /* ****************** FIN METODOS DE INSERTAR ************************** */
 
     /* ****************** METODOS DE BORRAR ************************** */
@@ -108,6 +125,13 @@ public class DataBaseManager {
     /* ****************** FIN METODOS DE BORRAR ************************** */
 
     /* ****************** METODOS DE SELECCIONAR ************************** */
+    public Cursor selectDataUsers() {
+        //Se crea el array de las columnas que seran consultadas
+        String[] columnas = new String[]{CN_ID_USER};
+
+        //Recupera la informacion del estatus que queremos
+        return db.query(TABLE_USERS, columnas, null, null, null, null, null);
+    }
 
     public Cursor selectDataPregunta() {
         //Se crea el array de las columnas que seran consultadas
@@ -138,13 +162,12 @@ public class DataBaseManager {
     //#########################    CONTENEDORES   ###############################################
 
     //Metodo contenedor de valores USUARIOS
-    private ContentValues generarContentValuesUsers(int id, String user, String password, String type) {
+    private ContentValues generarContentValuesUsers(int id_user, String user, String password) {
         ContentValues values = new ContentValues();
-        values.put(CN_ID, id);
+        values.put(CN_ID_USER, id_user);
         values.put(CN_USER, user);
         values.put(CN_PASSWORD, password);
-        values.put(CN_STATE, type);
-
+        values.put(CN_STATE, 0);
         return values;
     }
 
@@ -155,12 +178,12 @@ public class DataBaseManager {
         values.put(CN_TEXT_QUESTION, question);
         values.put(CN_VALUE, 0);
         values.put(CN_STATE, 0);
-        values.put(CN_SYNC, 1);
+        values.put(CN_SYNC, 0);
         //Log.d("valores", String.valueOf(values));
         return values;
     }
 
-    //Metodo contenedor de valores Preguntas
+    //Metodo contenedor de valores Respuestas
     private ContentValues generarContentValuesAnswerQuestions(int id_question, int id_answer, String answer, int value) {
         ContentValues values = new ContentValues();
         values.put(CN_ID_QUESTION, id_question);
@@ -168,8 +191,19 @@ public class DataBaseManager {
         values.put(CN_TEXT_ANSWER, answer);
         values.put(CN_VALUE, value);
         values.put(CN_STATE, 0);
-        values.put(CN_SYNC, 1);
-        Log.d("respuestas_v", String.valueOf(values));
+        values.put(CN_SYNC, 0);
+        //Log.d("respuestas_v", String.valueOf(values));
+        return values;
+    }
+
+    //Metodo contenedor de valores Respuestas
+    private ContentValues generarContentValuesAnswerUsers(int id_question, int id_answer, int id_user) {
+        ContentValues values = new ContentValues();
+        values.put(CN_ID_QUESTION, id_question);
+        values.put(CN_ID_ANSWER, id_answer);
+        values.put(CN_ID_USER, id_user);
+        values.put(CN_SYNC, 0);
+        //Log.d("respuestas_v", String.valueOf(values));
         return values;
     }
 
@@ -178,12 +212,20 @@ public class DataBaseManager {
     //########################### SERVER OPERATIONS ####################################################
 
     //Metodo para leer respuesta del login en el server
-    public boolean obtDatosJSONLogin(String response) {
+    public boolean obtDatosJSONLogin(String response, String user, String psw) {
         boolean acceso = false;
+        int id_user = 0;
         try {
             //recibimos el arreglo de tipo JSON en una variable JSON
             JSONObject object = new JSONObject(response);
-            acceso = object.getBoolean("status");
+            JSONObject jsonArray = object.getJSONObject("status");
+            acceso = jsonArray.getBoolean("existe");
+            id_user = jsonArray.getInt("id_user");
+
+
+            InsertParamsUsers(id_user, user, psw);
+            //Log.d("response_user1", String.valueOf(acceso));
+            //Log.d("response_user2", String.valueOf(id_user));
         } catch (Exception e) {
             Log.d("errorJson", String.valueOf(e));
             return acceso;

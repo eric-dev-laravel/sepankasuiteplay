@@ -15,4 +15,6 @@
 
     <color name="colorFloatActionButtonPista">#FFCC29</color>
     <color name="colorFloatActionButtonPistaPress">#FF6600</color>
+    <color name="colorButtonPreguntaContestada">#3B848C</color>
+    <color name="colorTextPreguntaContestada">#BDBFC1</color>
 </resources>
