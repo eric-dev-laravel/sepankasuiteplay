@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 pregunta = "Mantente atento, en breve aparecerá la siguiente pregunta.";
             }
-            tv_numero_pregunta.setText("Pregunta "+id_ultima_pre+"/7");
+            tv_numero_pregunta.setText("Pregunta "+id_ultima_pre+"/9");
             tv_pregunta_ultima.setText(pregunta);
         }
     }
