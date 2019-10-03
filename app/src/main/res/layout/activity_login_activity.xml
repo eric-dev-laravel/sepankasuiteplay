@@ -36,13 +36,13 @@
 
             <EditText
                 android:id="@+id/et_user"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Email"
                 android:textColorHint="@color/colorPurpleSepanka"
                 android:inputType="textEmailAddress"
-                android:text="soporte@hallmg.com"
                 android:textColor="#000000"
                 android:background="@drawable/custome_edit_text"
                 android:textSize="20sp"
@@ -58,13 +58,13 @@
 
             <EditText
                 android:id="@+id/et_password"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Contraseña"
                 android:textColorHint="@color/colorPurpleSepanka"
                 android:inputType="textPassword"
-                android:text="Rally2019$"
                 android:textColor="#000000"
                 android:background="@drawable/custome_edit_text"
                 android:textSize="20sp"

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -58,6 +59,8 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Asignamos que el activity solo se abra de tipo vertical
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_questions_activity);
 
         //Creamos una nueva instancia de la clase para obtener atributos y metodos
@@ -109,6 +112,12 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
                 break;
             case 7:
                 drawable = getResources().getDrawable(R.drawable.pregunta7);
+                break;
+            case 8:
+                drawable = getResources().getDrawable(R.drawable.pregunta8);
+                break;
+            case 9:
+                drawable = getResources().getDrawable(R.drawable.pregunta8);
                 break;
         }
         iv_imagen_pregunta.setImageDrawable(drawable);

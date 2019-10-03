@@ -3,14 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:orientation="vertical"
-    android:background="@drawable/fondo_inicio"
+    android:background="@drawable/background_init_screen"
     android:layout_height="wrap_content">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/logo_inicio"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,6 +17,12 @@
             android:padding="30dp"
             tools:context=".signup_activity">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/logo_inicio"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,12 +31,18 @@
                 android:textColorHint="@color/colorAccent">
 
                 <EditText
+                    android:id="@+id/et_name_user_resgister"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre completo"
                     android:ems="10"
-                    android:inputType="text"
-                    android:textSize="20sp"/>
+                    android:hint="Nombre Completo"
+                    android:textColorHint="@color/colorPurpleSepanka"
+                    android:inputType="textAutoComplete"
+                    android:textColor="#000000"
+                    android:background="@drawable/custome_edit_text"
+                    android:textSize="20sp"
+                    android:drawableLeft="@drawable/ic_username"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -47,12 +53,40 @@
                 android:textColorHint="@color/colorAccent">
 
                 <EditText
+                    android:id="@+id/et_id_arioac_resgister"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="ID Arioc"
+                    android:textColorHint="@color/colorPurpleSepanka"
+                    android:inputType="number"
+                    android:textColor="#000000"
+                    android:background="@drawable/custome_edit_text"
+                    android:textSize="20sp"
+                    android:drawableLeft="@drawable/ic_idarioac"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/et_email_resgiter"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
                     android:hint="Email"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:textSize="20sp"/>
+                    android:textColorHint="@color/colorPurpleSepanka"
+                    android:inputType="textEmailAddress"
+                    android:textColor="#000000"
+                    android:background="@drawable/custome_edit_text"
+                    android:textSize="20sp"
+                    android:drawableLeft="@drawable/ic_email"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -63,29 +97,18 @@
                 android:textColorHint="@color/colorAccent">
 
                 <EditText
+                    android:id="@+id/et_password1_resgister"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Confirmar Email"
                     android:ems="10"
-                    android:inputType="text"
-                    android:textSize="20sp"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:textColorHint="@color/colorAccent">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:hint="Contraseña"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:textSize="20sp"/>
+                    android:textColorHint="@color/colorPurpleSepanka"
+                    android:inputType="textPassword"
+                    android:textColor="#000000"
+                    android:background="@drawable/custome_edit_text"
+                    android:textSize="20sp"
+                    android:drawableLeft="@drawable/ic_icon_edittext_password"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -96,12 +119,18 @@
                 android:textColorHint="@color/colorAccent">
 
                 <EditText
+                    android:id="@+id/et_password2_register"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Confirmar Contraseña"
                     android:ems="10"
-                    android:inputType="text"
-                    android:textSize="20sp"/>
+                    android:hint="Confirmar Contraseña"
+                    android:textColorHint="@color/colorPurpleSepanka"
+                    android:inputType="textPassword"
+                    android:textColor="#000000"
+                    android:background="@drawable/custome_edit_text"
+                    android:textSize="20sp"
+                    android:drawableLeft="@drawable/ic_icon_edittext_password"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button

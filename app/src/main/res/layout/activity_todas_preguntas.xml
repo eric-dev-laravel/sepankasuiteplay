@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,97 +8,134 @@
     android:background="@color/colorPurpleSepanka"
     tools:context=".TodasPreguntas">
 
-    <ImageView
-        android:id="@+id/iv_imageTodasPregunta"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:src="@drawable/todas_las_preguntas"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_marginTop="20dp"
+        <ImageView
+            android:id="@+id/iv_imageTodasPregunta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_height="170dp"
+            android:src="@drawable/todas_las_preguntas"/>
 
-            <Button
-                android:id="@+id/btn_pregunta7"
-                android:visibility="gone"
-                android:layout_width="350dp"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="Pregunta 7"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp"/>
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_pregunta6"
-                android:visibility="gone"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="Pregunta 6"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/btn_pregunta9"
+                    android:visibility="gone"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:text="Pregunta 9/9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"/>
 
-            <Button
-                android:id="@+id/btn_pregunta5"
-                android:visibility="gone"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="Pregunta 5"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/btn_pregunta8"
+                    android:visibility="gone"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:text="Pregunta 8/9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"/>
 
-            <Button
-                android:id="@+id/btn_pregunta4"
-                android:visibility="gone"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="Pregunta 4"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/btn_pregunta7"
+                    android:visibility="gone"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:text="Pregunta 7/9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"/>
 
-            <Button
-                android:id="@+id/btn_pregunta3"
-                android:visibility="gone"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="Pregunta 3"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/btn_pregunta6"
+                    android:visibility="gone"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:text="Pregunta 6/9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"/>
 
-            <Button
-                android:id="@+id/btn_pregunta2"
-                android:visibility="gone"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="Pregunta 2"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/btn_pregunta5"
+                    android:visibility="gone"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:text="Pregunta 5/9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"/>
 
-            <Button
-                android:id="@+id/btn_pregunta1"
-                android:visibility="gone"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="Pregunta 1"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/btn_pregunta4"
+                    android:visibility="gone"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:text="Pregunta 4/9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"/>
+
+                <Button
+                    android:id="@+id/btn_pregunta3"
+                    android:visibility="gone"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:text="Pregunta 3/9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"/>
+
+                <Button
+                    android:id="@+id/btn_pregunta2"
+                    android:visibility="gone"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:text="Pregunta 2/9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"/>
+
+                <Button
+                    android:id="@+id/btn_pregunta1"
+                    android:visibility="gone"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:text="Pregunta 1/9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"/>
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </ScrollView>
+        </ScrollView>
 
-</LinearLayout>
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_reloadQuestions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_redo_black"
+        app:fab_colorNormal="@color/colorFloatActionButtonReload"
+        app:fab_colorPressed="@color/colorFloatActionButtonPistaPress"/>
+
+</RelativeLayout>

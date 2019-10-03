@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +29,8 @@ public class splash_activity extends AppCompatActivity {
     Animation animation;
     ImageView imageView;
 
+    Cursor cursor;
+
     //Generamos la variable global del tiempo que estara abierto el splash screen en milisegundos
     private final int SPLASH_DURATION = 4000;
 
@@ -43,6 +46,7 @@ public class splash_activity extends AppCompatActivity {
 
         //Creamos una nueva instancia de la clase para obtener atributos y metodos
         manager = new DataBaseManager(this);
+        cursor = manager.selectDataUsers();
 
         imageView = (ImageView) findViewById(R.id.iv_imageSplash);
         animation= AnimationUtils.loadAnimation(splash_activity.this,R.anim.pulse);
@@ -52,12 +56,21 @@ public class splash_activity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //Generamos un intent de la actividad nueva
-                Intent intent = new Intent(splash_activity.this, init_activity.class);
-                //Lanzamos el activity
-                startActivity(intent);
-                //Cerramos el intent actual para que no se quede en cola
-                finish();
+                if (cursor.getCount() > 0){
+                    //Creamos una instancia de la otra ventana
+                    Intent intent1 = new Intent(splash_activity.this, AppIntroActivity.class);
+                    //Nos aseguramos de cerrar las ventanas activas o que no se
+                    //repitan si es que ya esta abiertas
+                    startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    finish();
+                } else {
+                    //Generamos un intent de la actividad nueva
+                    Intent intent = new Intent(splash_activity.this, init_activity.class);
+                    //Lanzamos el activity
+                    startActivity(intent);
+                    //Cerramos el intent actual para que no se quede en cola
+                    finish();
+                }
             };
         }, SPLASH_DURATION);
 

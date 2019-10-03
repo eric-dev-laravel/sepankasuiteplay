@@ -3,6 +3,7 @@ package com.sepankasuite.sepankaplay;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,8 @@ public class init_activity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Asignamos que el activity solo se abra de tipo vertical
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_init_activity);
 
         //Creamos una nueva instancia de la clase para obtener atributos y metodos
@@ -48,12 +51,14 @@ public class init_activity extends AppCompatActivity implements View.OnClickList
                     //Nos aseguramos de cerrar las ventanas activas o que no se
                     //repitan si es que ya esta abiertas
                     startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    finish();
                 } else {
                     //Creamos una instancia de la otra ventana
                     Intent intent1 = new Intent(this, login_activity.class);
                     //Nos aseguramos de cerrar las ventanas activas o que no se
                     //repitan si es que ya esta abiertas
                     startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    finish();
                 }
                 break;
 

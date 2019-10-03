@@ -1,11 +1,15 @@
 package com.sepankasuite.sepankaplay;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.View;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,8 +23,11 @@ public class ViewPagerAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private Integer [] images = {R.drawable.banner_1,R.drawable.banner_2,R.drawable.banner_3,R.drawable.banner_4,R.drawable.banner_5,
-            R.drawable.banner_6,R.drawable.banner_7,R.drawable.banner_8,R.drawable.banner_9,};
+            R.drawable.banner_6,R.drawable.banner_7,R.drawable.banner_8,R.drawable.banner_9, R.drawable.banner_10};
 
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog alertDialog;
+    
     //Generamos el contructor para recuperar el contexto donde nos encontramo
     public ViewPagerAdapter(Context context) {
         this.context = context;
@@ -93,11 +100,13 @@ public class ViewPagerAdapter extends PagerAdapter {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/reconocimiento-al-personal"));
                     //Lanzamos la peticion del nuevo activity externo
                     context.startActivity(browserIntent);
-                } else {
+                } else if (position == 8){
                     //Creamos un nuevo intent de tipo externo para abir el navegador y asignamos la url que abrira
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/capacitacion-en-linea"));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sepankasuite.com/reconocimiento-al-personal"));
                     //Lanzamos la peticion del nuevo activity externo
                     context.startActivity(browserIntent);
+                }else {
+                    showAlertDialog(R.layout.dialog_premio_layout);
                 }
             }
         });
@@ -116,5 +125,26 @@ public class ViewPagerAdapter extends PagerAdapter {
         ViewPager vp = (ViewPager) container;
         View view = (View) object;
         vp.removeView(view);
+    }
+
+    private void showAlertDialog(int layout){
+        dialogBuilder = new AlertDialog.Builder(context);
+        View layoutView = getLayoutInflater().inflate(layout, null);
+        Button dialogButton = layoutView.findViewById(R.id.btnDialog);
+        dialogBuilder.setView(layoutView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+    }
+
+    public LayoutInflater getLayoutInflater() {
+        return layoutInflater;
     }
 }

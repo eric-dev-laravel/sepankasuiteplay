@@ -20,6 +20,8 @@ public class DataBaseManager {
     public  static final String SERVER_PATH_CHECKLOGIN = "checklogin/";
     public  static final String SERVER_PATH_LAST_QUESTION = "lastQuestionModif/";
     public  static final String SERVER_PATH_ALL_QUESTIONS = "activeQuestions/";
+    public  static final String SERVER_PATH_REGISTER = "insertUser/";
+    public  static final String SERVER_PATH_SAVE_USERANSWERS = "saveAnswers/";
 
     /*Esta clase es la encargada de hacer movimientos en la DB*/
 
@@ -136,6 +138,16 @@ public class DataBaseManager {
         db.update(TABLE_QUESTIONS, columnas, "_id_question=?", args);
     }
 
+    //Editar un campo en la tabla de Preguntas
+    public void updateDataUserAnswers(int idIntern){
+        ContentValues columnas = new ContentValues();
+        columnas.put(CN_SYNC, 1);
+
+        String[] args = new String[] {String.valueOf(idIntern)};
+
+        db.update(TABLE_ANSWERS_USERS, columnas, "_id=?", args);
+    }
+
     /* ****************** FIN METODOS DE UPDATE ************************** */
 
     /* ****************** METODOS DE SELECCIONAR ************************** */
@@ -177,6 +189,14 @@ public class DataBaseManager {
         String[] args = new String[] {String.valueOf(id_question)};
         //Recupera la informacion del estatus que queremos
         return db.query(TABLE_ANSWERS_USERS, columnas, "_id_question=?", args, null, null, null);
+    }
+
+    public Cursor showUserAnswers() {
+        //Se crea el array de las columnas que seran consultadas
+        String[] columnas = new String[]{CN_ID_USER, CN_ID_QUESTION, CN_ID_ANSWER, CN_ID};
+        String[] args = new String[] {String.valueOf(0)};
+        //Recupera la informacion del estatus que queremos
+        return db.query(TABLE_ANSWERS_USERS, columnas, "sincronized=?", args, null, null, null);
     }
 
     /* ****************** FIN METODOS DE SELECCIONAR ************************** */
@@ -244,8 +264,8 @@ public class DataBaseManager {
             acceso = jsonArray.getBoolean("existe");
             id_user = jsonArray.getInt("id_user");
 
-            Log.d("response_user1", String.valueOf(acceso));
-            Log.d("response_user2", String.valueOf(id_user));
+            //Log.d("response_user1", String.valueOf(acceso));
+            //Log.d("response_user2", String.valueOf(id_user));
 
             InsertParamsUsers(id_user, user, psw);
         } catch (Exception e) {
@@ -253,6 +273,34 @@ public class DataBaseManager {
             return acceso;
         }
         return acceso;
+    }
+
+    //Metodo para leer respuesta del login en el server
+    public String[] obtDatosJSONRegister(String response, String user, String psw) {
+        String[] values = new String[0];
+        boolean access = false;
+        String msg = "";
+        int id_user = 0;
+        try {
+            //recibimos el arreglo de tipo JSON en una variable JSON
+            JSONObject object = new JSONObject(response);
+            //Log.d("response_register", String.valueOf(object));
+            access = object.getBoolean("status");
+            msg = object.getString("msg");
+            id_user = object.getInt("id_user");
+
+            values = new String[]{
+                    String.valueOf(access),
+                    msg,
+                    String.valueOf(id_user)
+            };
+
+            InsertParamsUsers(id_user, user, psw);
+        } catch (Exception e) {
+            Log.d("errorJson", String.valueOf(e));
+            return values;
+        }
+        return values;
     }
 
     //Metodo para descargar ultima pregunta
@@ -323,15 +371,7 @@ public class DataBaseManager {
                         String respuesta = jsonObject2.getString("texto");
                         int es_correcta = Integer.parseInt(jsonObject2.getString("correcta"));
 
-                        //Log.d("id_pregunta", String.valueOf(id_pregunta_server));
-                        //Log.d("id_respuesta", String.valueOf(id_respuesta));
-                        //Log.d("respuesta", respuesta);
-                        //Log.d("valor_es", String.valueOf(es_correcta));
-
                         InsertParamsAnswer(id_pregunta_server, id_respuesta, respuesta, es_correcta);
-                        /*for (int b = 0; b < 1; b++){
-                            //Log.d("Respuestas", String.valueOf(jsonObject2.toString(b)));
-                        }*/
                     }
                 }
             }
@@ -342,50 +382,33 @@ public class DataBaseManager {
         return null;
     }
 
-    public String obtDatosJSON(String response) {
-        String cadena = "";
+    //Metodo para leer respuesta del login en el server
+    public String[] obtDatosJSONSaveAnswersUser(String response) {
+        String[] values = new String[0];
+        boolean access = false;
+        String msg = "";
+        int id_interno = 0;
         try {
-            //clearDataDatos();
-            //resibimos el arreglo de tipo JSON en una variable JSON
-            JSONArray jsonArray = new JSONArray(response);
-            for (int i = 0;i<=jsonArray.length();i++) {
-                String valor="NO";
-                String ganador = jsonArray.getJSONObject(i).getString("fecha_tag");
-                if (!ganador.equals("null")){
-                    valor = "SI";
-                }
-                /*InsertParamsDatos(jsonArray.getJSONObject(i).getString("NOMBRE"),
-                        jsonArray.getJSONObject(i).getString("APELLIDO_PATERNO"),
-                        jsonArray.getJSONObject(i).getString("APELLIDO_MATERNO"),
-                        jsonArray.getJSONObject(i).getString("FECHA_NACIMIENTO"),
-                        Integer.parseInt(jsonArray.getJSONObject(i).getString("EDAD")),
-                        jsonArray.getJSONObject(i).getString("SEXO"),
-                        Integer.parseInt(jsonArray.getJSONObject(i).getString("NUMERO_COMPETIDOR")),
-                        jsonArray.getJSONObject(i).getString("CATEGORIA"),
-                        jsonArray.getJSONObject(i).getString("TIEMPO_ESTIMADO"),
-                        jsonArray.getJSONObject(i).getString("EVENTO"),
-                        jsonArray.getJSONObject(i).getString("ID_NFC"),
-                        jsonArray.getJSONObject(i).getString("TIPO_SANGRE"),
-                        jsonArray.getJSONObject(i).getString("ALERGIAS"),
-                        jsonArray.getJSONObject(i).getString("PADECIMIENTO"),
-                        jsonArray.getJSONObject(i).getString("STATUS_MEDICAMENTO"),
-                        jsonArray.getJSONObject(i).getString("NOMBRE_MEDICAMENTO"),
-                        jsonArray.getJSONObject(i).getString("ANTECEDENTES"),
-                        jsonArray.getJSONObject(i).getString("COMENTARIOS"),
-                        jsonArray.getJSONObject(i).getString("SEGURO"),
-                        jsonArray.getJSONObject(i).getString("SEGURIDAD"),
-                        jsonArray.getJSONObject(i).getString("CONTACTO_EMERGENCIA"),
-                        jsonArray.getJSONObject(i).getString("TELEFONO_CONTACTO"),
-                        jsonArray.getJSONObject(i).getString("DONADOR"),
-                        jsonArray.getJSONObject(i).getString("CANCION_FAVORITA"),
-                        valor
-                );*/
-            }
+            //recibimos el arreglo de tipo JSON en una variable JSON
+            JSONObject object = new JSONObject(response);
+            //Log.d("response_register", String.valueOf(object));
+            access = object.getBoolean("status");
+            msg = object.getString("msg");
+            id_interno = object.getInt("id_interno");
 
+            values = new String[]{
+                    String.valueOf(access),
+                    msg,
+                    String.valueOf(id_interno)
+            };
+            if (access == true){
+                updateDataUserAnswers(id_interno);
+            }
         } catch (Exception e) {
-            return cadena;
+            Log.d("errorJson", String.valueOf(e));
+            return values;
         }
-        return cadena;
+        return values;
     }
 
     //Metodo de Inicializacion

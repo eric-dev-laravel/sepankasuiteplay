@@ -10,6 +10,8 @@ import android.os.Bundle;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
+import static com.sepankasuite.sepankaplay.R.string.app_intro_description1;
+
 public class AppIntroActivity extends AppIntro {
 
     @Override

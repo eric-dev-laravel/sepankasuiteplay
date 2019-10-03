@@ -1,5 +1,6 @@
 package com.sepankasuite.sepankaplay;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -47,12 +48,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tv_pregunta_ultima;
     TextView tv_numero_pregunta;
     Cursor cursor;
+    Cursor cursor_user_answers;
     String pregunta = "";
     int id_ultima_pre = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Asignamos que el activity solo se abra de tipo vertical
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
 
         //Creamos una nueva instancia de la clase para obtener atributos y metodos
@@ -124,9 +128,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Creamos una variable para inicializar un loop en el carrusel
         Timer timer = new Timer();
         //Asignamos a nuestro timer el tiempo y la funcion que genera el cambio de imagen, el tiempo debe ser en milisegundos
-        timer.scheduleAtFixedRate(new MyTimerTask(), 4000, 8000);
+        timer.scheduleAtFixedRate(new MyTimerTask(), 2000, 4000);
 
         new DownloadLastQuestion().execute();
+
+        final boolean ejecutar = true;
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    while(ejecutar){
+                        new UploadUserAnswers().execute();
+                        Thread.sleep(20000);
+                    }
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -152,10 +171,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // Refresh main activity upon close of dialog box
+        Intent refresh = new Intent(this, MainActivity.class);
+        //Mandamos paramentros a la siguiente ventana
+        //startActivity(refresh.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+        startActivity(refresh);
+        this.finish();
+    }
+
     //Metodo al hacer clic sobre el floating button de facebook
     public void facebookIntent(View view){
         //generalos la URL a donde se dirigira
-        String url = "https://facebook.com/sepankasuite";
+        String url = "https://www.facebook.com/SepankaSuite";
+        //Creamos un nuevo intento
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        //Parseamos la url para que sea leida por el app que se seleccione al abrir
+        intent.setData(Uri.parse(url));
+        //Lanzamos el activity nuevo
+        startActivity(intent);
+    }
+
+    //Metodo al hacer clic sobre el floating button de facebook
+    public void linkedinIntent(View view){
+        //generalos la URL a donde se dirigira
+        String url = "https://www.linkedin.com/company/sepankasuite/";
+        //Creamos un nuevo intento
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        //Parseamos la url para que sea leida por el app que se seleccione al abrir
+        intent.setData(Uri.parse(url));
+        //Lanzamos el activity nuevo
+        startActivity(intent);
+    }
+
+    //Metodo al hacer clic sobre el floating button de facebook
+    public void websiteIntent(View view){
+        //generalos la URL a donde se dirigira
+        String url = "https://sepankasuite.com";
         //Creamos un nuevo intento
         Intent intent = new Intent(Intent.ACTION_VIEW);
         //Parseamos la url para que sea leida por el app que se seleccione al abrir
@@ -189,7 +243,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         viewPager.setCurrentItem(7);
                     } else if (viewPager.getCurrentItem() == 7){
                         viewPager.setCurrentItem(8);
-                    }  else {
+                    } else if (viewPager.getCurrentItem() == 8){
+                        viewPager.setCurrentItem(9);
+                    }else {
                         viewPager.setCurrentItem(0);
                     }
                 }
@@ -250,10 +306,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     pregunta = cursor.getString(2);
                 } while (cursor.moveToNext());
             } else {
-                pregunta = "No se actualizo la pregunta";
+                pregunta = "Mantente atento, en breve aparecerá la siguiente pregunta.";
             }
-            tv_numero_pregunta.setText("Pregunta "+id_ultima_pre);
+            tv_numero_pregunta.setText("Pregunta "+id_ultima_pre+"/7");
             tv_pregunta_ultima.setText(pregunta);
+        }
+    }
+
+    //Proceso en segundo plano para subir las respuestas del usuario
+    public class UploadUserAnswers extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            //Creamos un nuevo cliente de conexion
+            final AsyncHttpClient client = new AsyncHttpClient();
+
+            final Handler handler = new Handler(Looper.getMainLooper());
+            final Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    cursor_user_answers = manager.showUserAnswers();
+                    cursor_user_answers.moveToFirst();
+                    if (cursor_user_answers.getCount() != 0){
+                        while (!cursor_user_answers.isAfterLast()){
+                            int id_user = cursor_user_answers.getInt(0);
+                            int id_question = cursor_user_answers.getInt(1);
+                            int id_answer = cursor_user_answers.getInt(2);
+                            int id_intern = cursor_user_answers.getInt(3);
+
+                            //Definimos la URL a la cual sera dirigidio y recuperamos los datos de las cajas de texto
+                            String url = manager.SERVER_URL
+                                    + manager.SERVER_PATH_SAVE_USERANSWERS
+                                    + id_user + "/"
+                                    + id_question + "/"
+                                    + id_answer + "/"
+                                    + id_intern + "/";
+                            //Ejecutamos peticion POST para envio de parametros
+                            client.post(url, null, new AsyncHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                    //Log.d("preguntas", String.valueOf(statusCode));
+                                    //Recuperamos el codigo de la operacion 200 significa que respondio el server correctamente y si existe conexion
+                                    if (statusCode == 200) {
+                                        //Recibimos la respuesta del servidor en formato JSON y la mandamos a la clase que obtiene los datos
+                                        //Asignamos el acceso si fue correcto regresara un true de lo contrario false
+                                        manager.obtDatosJSONSaveAnswersUser(new String(responseBody));
+                                    } else {
+                                        //En caso de conectar con el server pero mandar un codigo distinto al 200
+                                        msgError = "Ocurrio un detalle al intentar conectar. Code: " + statusCode;
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                    //En caso de no conectar con el servidor se muestra este msg
+                                    msgError = "Imposible conectar con el servidor.";
+                                }
+                            });
+                            cursor_user_answers.moveToNext();
+                        }
+                    }
+                }
+            };
+            handler.post(runnable);
+            return null;
         }
     }
 }

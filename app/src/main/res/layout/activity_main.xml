@@ -164,6 +164,7 @@
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="websiteIntent"
                 app:fab_colorNormal="@color/colorPrimaryDark"
                 android:src="@drawable/ic_web"
                 app:fab_label="Página Web"/>
@@ -179,6 +180,7 @@
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="linkedinIntent"
                 app:fab_colorNormal="@color/colorFloatActionButtonLinkedin"
                 android:src="@drawable/ic_linkedin"
                 app:fab_label="Linkedin"/>
