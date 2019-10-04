@@ -3,8 +3,8 @@
     <string name="all_questions_text">
         En este apartado encontrarás las preguntas anteriores para que continues participando.
     </string>
-    
+
    <string name="app_intro_description1">
-       <font size="30dp">Hola</font>
+       <![CDATA[<font size="30dp"></font>]]>
    </string>
 </resources>

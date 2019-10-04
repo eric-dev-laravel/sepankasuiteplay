@@ -40,16 +40,11 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
     String respuesta = "";
     int idRespuesta = 0;
 
-    String respuesta1 = "";
-    String respuesta2 = "";
-    String respuesta3 = "";
-    String respuesta4 = "";
-    int idRespuesta1 = 0;
-    int idRespuesta2 = 0;
-    int idRespuesta3 = 0;
-    int idRespuesta4 = 0;
+    String respuesta1, respuesta2, respuesta3, respuesta4, respuesta5, respuesta6 = "";
 
-    Button btn_respuesta1,btn_respuesta2,btn_respuesta3,btn_respuesta4;
+    int idRespuesta1, idRespuesta2, idRespuesta3, idRespuesta4, idRespuesta5, idRespuesta6 = 0;
+
+    Button btn_respuesta1,btn_respuesta2,btn_respuesta3,btn_respuesta4,btn_respuesta5,btn_respuesta6;
 
     AlertDialog.Builder dialogBuilder;
     AlertDialog alertDialog;
@@ -76,7 +71,26 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
         btn_respuesta2 = findViewById(R.id.btn_respuesta2);
         btn_respuesta3 = findViewById(R.id.btn_respuesta3);
         btn_respuesta4 = findViewById(R.id.btn_respuesta4);
+        btn_respuesta5 = findViewById(R.id.btn_respuesta5);
+        btn_respuesta6 = findViewById(R.id.btn_respuesta6);
         floatingActionButtonPista = findViewById(R.id.fab_pista);
+
+        if (Integer.parseInt(idUltPregunta) == 8){
+            btn_respuesta1.setVisibility(View.VISIBLE);
+            btn_respuesta2.setVisibility(View.VISIBLE);
+            btn_respuesta3.setVisibility(View.VISIBLE);
+            btn_respuesta4.setVisibility(View.VISIBLE);
+            btn_respuesta5.setVisibility(View.VISIBLE);
+            btn_respuesta6.setVisibility(View.VISIBLE);
+        } else if (Integer.parseInt(idUltPregunta) == 9) {
+            btn_respuesta1.setVisibility(View.VISIBLE);
+            btn_respuesta2.setVisibility(View.VISIBLE);
+        } else {
+            btn_respuesta1.setVisibility(View.VISIBLE);
+            btn_respuesta2.setVisibility(View.VISIBLE);
+            btn_respuesta3.setVisibility(View.VISIBLE);
+            btn_respuesta4.setVisibility(View.VISIBLE);
+        }
 
         Drawable bgColorGreenActive = getResources().getDrawable(R.drawable.button_green_around);
         Drawable bgColorGreen = getResources().getDrawable(R.drawable.button_green_low_around);
@@ -87,6 +101,8 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
         btn_respuesta2.setBackground(bgColorGreenActive);
         btn_respuesta3.setBackground(bgColorGreenActive);
         btn_respuesta4.setBackground(bgColorGreenActive);
+        btn_respuesta5.setBackground(bgColorGreenActive);
+        btn_respuesta6.setBackground(bgColorGreenActive);
 
         pregunta_id.setText("Pregunta " + idUltPregunta);
 
@@ -163,6 +179,14 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
                 btn_respuesta4.setText(respuesta);
                 idRespuesta4 = idRespuesta;
                 respuesta4 = respuesta;
+            } else if (number == 5){
+                btn_respuesta5.setText(respuesta);
+                idRespuesta5 = idRespuesta;
+                respuesta5 = respuesta;
+            } else if (number == 6){
+                btn_respuesta6.setText(respuesta);
+                idRespuesta6 = idRespuesta;
+                respuesta6 = respuesta;
             }
             cursor_respuestas.moveToNext();
             number++;
@@ -177,6 +201,10 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
             btn_respuesta3.setTextColor(colorTextPC);
             btn_respuesta4.setBackground(bgColorGreen);
             btn_respuesta4.setTextColor(colorTextPC);
+            btn_respuesta5.setBackground(bgColorGreen);
+            btn_respuesta5.setTextColor(colorTextPC);
+            btn_respuesta6.setBackground(bgColorGreen);
+            btn_respuesta6.setTextColor(colorTextPC);
 
             try {
                 cursor_respuestas.moveToFirst();
@@ -196,6 +224,12 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
                     } else if (number2 == 4 && idRespuesta == idRespuestaUsuario){
                         btn_respuesta4.setBackground(bgColorGreenActive);
                         btn_respuesta4.setTextColor(colorTextSC);
+                    } else if (number2 == 5 && idRespuesta == idRespuestaUsuario){
+                        btn_respuesta5.setBackground(bgColorGreenActive);
+                        btn_respuesta5.setTextColor(colorTextSC);
+                    } else if (number2 == 6 && idRespuesta == idRespuestaUsuario){
+                        btn_respuesta6.setBackground(bgColorGreenActive);
+                        btn_respuesta6.setTextColor(colorTextSC);
                     }
                     cursor_respuestas.moveToNext();
                     number2++;
@@ -208,6 +242,8 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
             btn_respuesta2.setOnClickListener(this);
             btn_respuesta3.setOnClickListener(this);
             btn_respuesta4.setOnClickListener(this);
+            btn_respuesta5.setOnClickListener(this);
+            btn_respuesta6.setOnClickListener(this);
         }
         floatingActionButtonPista.setOnClickListener(this);
 
@@ -236,9 +272,15 @@ public class Questions_activity extends AppCompatActivity implements View.OnClic
             case R.id.btn_respuesta4:
                 showAlertDialog(R.layout.answer_layout, idRespuesta4, respuesta4);
                 break;
+            case R.id.btn_respuesta5:
+                showAlertDialog(R.layout.answer_layout, idRespuesta5, respuesta5);
+                break;
+            case R.id.btn_respuesta6:
+                showAlertDialog(R.layout.answer_layout, idRespuesta6, respuesta6);
+                break;
             case R.id.fab_pista:
                 //generalos la URL a donde se dirigira
-                url = "https://google.com";
+                url = "https://sepankasuite.com/";
 
                 switch (Integer.parseInt(idUltPregunta)){
                     case 1:

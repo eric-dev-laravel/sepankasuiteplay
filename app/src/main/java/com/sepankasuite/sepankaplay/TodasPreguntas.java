@@ -197,7 +197,7 @@ public class TodasPreguntas extends AppCompatActivity {
                 }
                 //Desaparecer un boton
                 btn_pregunta6.setVisibility(View.VISIBLE);
-                btn_pregunta7.setOnClickListener(new View.OnClickListener() {
+                btn_pregunta6.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();

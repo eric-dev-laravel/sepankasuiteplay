@@ -1,16 +1,17 @@
 package com.sepankasuite.sepankaplay;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
-
-import static com.sepankasuite.sepankaplay.R.string.app_intro_description1;
+import com.github.paolorotolo.appintro.model.SliderPage;
 
 public class AppIntroActivity extends AppIntro {
 
@@ -19,6 +20,7 @@ public class AppIntroActivity extends AppIntro {
         super.onCreate(savedInstanceState);
         //Al usar este tipo de elemento no requiere hacer una ligadura del codigo java con la actividad
         //setContentView(R.layout.activity_app_intro);
+        setFlowAnimation();
 
         //Generamos el numero de elementos que tendra el intro cada uno debe cubrir background, title, description, image
         addSlide(AppIntroFragment.newInstance("BIENVENIDO", "",
@@ -27,11 +29,9 @@ public class AppIntroActivity extends AppIntro {
                 R.drawable.intro2, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
         addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "SEPANKAPLAY es un juego de pistas",
                 R.drawable.intro3, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));*/
-        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "En esta pantalla irán apareciendo preguntas cuyas soluciones están dispersas en el sitio " +
-                        "www.sepankasuite.com y en sus redes sociales",
+        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "En esta pantalla irán apareciendo preguntas cuyas soluciones están dispersas en el sitio www.sepankasuite.com y en sus redes sociales",
                 R.drawable.intro4, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
-        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "Dá clic sobre el ícono de pistas que aparecerá en el margen superior derecho de tu dispositivo " +
-                        "para encontrar las respuestas",
+        addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "Da clic sobre el ícono de pistas que aparecerá en el margen superior derecho de tu dispositivo para encontrar las respuestas",
                 R.drawable.intro5, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
     }
 
