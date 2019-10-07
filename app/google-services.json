@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "328199675618",
+    "firebase_url": "https://test-sepankaplay-950b7.firebaseio.com",
+    "project_id": "test-sepankaplay-950b7",
+    "storage_bucket": "test-sepankaplay-950b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328199675618:android:55de01623928456e9488bb",
+        "android_client_info": {
+          "package_name": "com.sepankasuite.sepankaplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328199675618-235etofg4rtk2d80jtqcv49poh692tg2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sepankasuite.sepankaplay",
+            "certificate_hash": "5e949a3739567244d6ddbd1796b555d2a3352461"
+          }
+        },
+        {
+          "client_id": "328199675618-1apeudn2bdubabf1hpriv0qlh8iu7rlc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo8wqS2h3ttHmaGHHvGniuJwPMno4_rc8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328199675618-1apeudn2bdubabf1hpriv0qlh8iu7rlc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,4 +7,5 @@
    <string name="app_intro_description1">
        <![CDATA[<font size="30dp"></font>]]>
    </string>
+    <string name="msg_token_fmt">Este es mi token</string>
 </resources>
