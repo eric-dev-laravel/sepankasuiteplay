@@ -23,7 +23,7 @@ public class AppIntroActivity extends AppIntro {
         setFlowAnimation();
 
         //Generamos el numero de elementos que tendra el intro cada uno debe cubrir background, title, description, image
-        addSlide(AppIntroFragment.newInstance("BIENVENIDO", "",
+        addSlide(AppIntroFragment.newInstance("Recibe una cordial bienvenida", "",
                 R.drawable.intro1, ContextCompat.getColor(getApplicationContext(), R.color.colorPurpleSepanka)));
         /*addSlide(AppIntroFragment.newInstance("INSTRUCCIONES", "",
                 R.drawable.intro2, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
