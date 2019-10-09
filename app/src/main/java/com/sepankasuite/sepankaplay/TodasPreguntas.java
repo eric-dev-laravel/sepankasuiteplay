@@ -33,6 +33,10 @@ public class TodasPreguntas extends AppCompatActivity {
     Button btn_pregunta1,btn_pregunta2,btn_pregunta3,btn_pregunta4,btn_pregunta5,btn_pregunta6,btn_pregunta7,btn_pregunta8,btn_pregunta9;
 
     FloatingActionButton floatingActionButtonReload;
+    Drawable bgColorGreenActive;
+    Drawable bgColorGreen;
+    int colorTextSC;
+    int colorTextPC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +59,10 @@ public class TodasPreguntas extends AppCompatActivity {
         btn_pregunta9 = findViewById(R.id.btn_pregunta9);
         floatingActionButtonReload = findViewById(R.id.fab_reloadQuestions);
 
-        Drawable bgColorGreenActive = getResources().getDrawable(R.drawable.button_green_around);
-        Drawable bgColorGreen = getResources().getDrawable(R.drawable.button_green_low_around);
-        int colorTextSC = getResources().getColor(R.color.colorBackgroundInit);
-        int colorTextPC = getResources().getColor(R.color.colorTextPreguntaContestada);
+        bgColorGreenActive = getResources().getDrawable(R.drawable.button_green_around);
+        bgColorGreen = getResources().getDrawable(R.drawable.button_green_low_around);
+        colorTextSC = getResources().getColor(R.color.colorBackgroundInit);
+        colorTextPC = getResources().getColor(R.color.colorTextPreguntaContestada);
 
         btn_pregunta1.setBackground(bgColorGreenActive);
         btn_pregunta1.setTextColor(colorTextSC);
@@ -286,6 +290,211 @@ public class TodasPreguntas extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        cursor = manager.selectDataPregunta();
+        cursor.moveToFirst();
+        int number = 1;
+        while (!cursor.isAfterLast()){
+            final int idPregunta = Integer.parseInt(cursor.getString(1));
+            if ( idPregunta == 1){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta1.setBackground(bgColorGreen);
+                    btn_pregunta1.setTextColor(colorTextPC);
+                }
+                //Desaparecer un boton
+                btn_pregunta1.setVisibility(View.VISIBLE);
+                btn_pregunta1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                        //Creamos una instancia de la otra ventana
+                        Intent intent = new Intent(TodasPreguntas.this, Questions_activity.class);
+                        //Mandamos paramentros a la siguiente ventana
+                        intent.putExtra("idPregunta", String.valueOf(idPregunta));
+                        //Nos aseguramos de cerrar las ventanas activas o que no se
+                        //repitan si es que ya esta abiertas
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    }
+                });
+            } else if( idPregunta == 2){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta2.setBackground(bgColorGreen);
+                    btn_pregunta2.setTextColor(colorTextPC);
+                }
+                //Desaparecer un boton
+                btn_pregunta2.setVisibility(View.VISIBLE);
+                btn_pregunta2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                        //Creamos una instancia de la otra ventana
+                        Intent intent = new Intent(TodasPreguntas.this, Questions_activity.class);
+                        //Mandamos paramentros a la siguiente ventana
+                        intent.putExtra("idPregunta", String.valueOf(idPregunta));
+                        //Nos aseguramos de cerrar las ventanas activas o que no se
+                        //repitan si es que ya esta abiertas
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    }
+                });
+            } else if( idPregunta == 3){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta3.setBackground(bgColorGreen);
+                    btn_pregunta3.setTextColor(colorTextPC);
+                }
+                //Desaparecer un boton
+                btn_pregunta3.setVisibility(View.VISIBLE);
+                btn_pregunta3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                        //Creamos una instancia de la otra ventana
+                        Intent intent = new Intent(TodasPreguntas.this, Questions_activity.class);
+                        //Mandamos paramentros a la siguiente ventana
+                        intent.putExtra("idPregunta", String.valueOf(idPregunta));
+                        //Nos aseguramos de cerrar las ventanas activas o que no se
+                        //repitan si es que ya esta abiertas
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    }
+                });
+            } else if( idPregunta == 4){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta4.setBackground(bgColorGreen);
+                    btn_pregunta4.setTextColor(colorTextPC);
+                }
+                //Desaparecer un boton
+                btn_pregunta4.setVisibility(View.VISIBLE);
+                btn_pregunta4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                        //Creamos una instancia de la otra ventana
+                        Intent intent = new Intent(TodasPreguntas.this, Questions_activity.class);
+                        //Mandamos paramentros a la siguiente ventana
+                        intent.putExtra("idPregunta", String.valueOf(idPregunta));
+                        //Nos aseguramos de cerrar las ventanas activas o que no se
+                        //repitan si es que ya esta abiertas
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    }
+                });
+            } else if( idPregunta == 5){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta5.setBackground(bgColorGreen);
+                    btn_pregunta5.setTextColor(colorTextPC);
+                }
+                //Desaparecer un boton
+                btn_pregunta5.setVisibility(View.VISIBLE);
+                btn_pregunta5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                        //Creamos una instancia de la otra ventana
+                        Intent intent = new Intent(TodasPreguntas.this, Questions_activity.class);
+                        //Mandamos paramentros a la siguiente ventana
+                        intent.putExtra("idPregunta", String.valueOf(idPregunta));
+                        //Nos aseguramos de cerrar las ventanas activas o que no se
+                        //repitan si es que ya esta abiertas
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    }
+                });
+            } else if( idPregunta == 6){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta6.setBackground(bgColorGreen);
+                    btn_pregunta6.setTextColor(colorTextPC);
+                }
+                //Desaparecer un boton
+                btn_pregunta6.setVisibility(View.VISIBLE);
+                btn_pregunta6.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                        //Creamos una instancia de la otra ventana
+                        Intent intent = new Intent(TodasPreguntas.this, Questions_activity.class);
+                        //Mandamos paramentros a la siguiente ventana
+                        intent.putExtra("idPregunta", String.valueOf(idPregunta));
+                        //Nos aseguramos de cerrar las ventanas activas o que no se
+                        //repitan si es que ya esta abiertas
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    }
+                });
+            } else if( idPregunta == 7){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta7.setBackground(bgColorGreen);
+                    btn_pregunta7.setTextColor(colorTextPC);
+                }
+                //Desaparecer un boton
+                btn_pregunta7.setVisibility(View.VISIBLE);
+                btn_pregunta7.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                        //Creamos una instancia de la otra ventana
+                        Intent intent = new Intent(TodasPreguntas.this, Questions_activity.class);
+                        //Mandamos paramentros a la siguiente ventana
+                        intent.putExtra("idPregunta", String.valueOf(idPregunta));
+                        //Nos aseguramos de cerrar las ventanas activas o que no se
+                        //repitan si es que ya esta abiertas
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    }
+                });
+            } else if( idPregunta == 8){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta8.setBackground(bgColorGreen);
+                    btn_pregunta8.setTextColor(colorTextPC);
+                }
+                //Desaparecer un boton
+                btn_pregunta8.setVisibility(View.VISIBLE);
+                btn_pregunta8.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                        //Creamos una instancia de la otra ventana
+                        Intent intent = new Intent(TodasPreguntas.this, Questions_activity.class);
+                        //Mandamos paramentros a la siguiente ventana
+                        intent.putExtra("idPregunta", String.valueOf(idPregunta));
+                        //Nos aseguramos de cerrar las ventanas activas o que no se
+                        //repitan si es que ya esta abiertas
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    }
+                });
+            } else if( idPregunta == 9){
+                cursor_respuesta_usuario = manager.showUserAnswerForQuestion(idPregunta);
+                if (cursor_respuesta_usuario.getCount() != 0){
+                    btn_pregunta9.setBackground(bgColorGreen);
+                    btn_pregunta9.setTextColor(colorTextPC);
+                }
+                //Desaparecer un boton
+                btn_pregunta9.setVisibility(View.VISIBLE);
+                btn_pregunta9.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(this, "ID: "+id_ultima_pre, Toast.LENGTH_LONG).show();
+                        //Creamos una instancia de la otra ventana
+                        Intent intent = new Intent(TodasPreguntas.this, Questions_activity.class);
+                        //Mandamos paramentros a la siguiente ventana
+                        intent.putExtra("idPregunta", String.valueOf(idPregunta));
+                        //Nos aseguramos de cerrar las ventanas activas o que no se
+                        //repitan si es que ya esta abiertas
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                    }
+                });
+            }
+            cursor.moveToNext();
+            number++;
+        }
+
+    }
+
     //Proceso en segundo plano para descargar todas las preguntas
     public class DownloadAllQuestions extends AsyncTask<Void, Void, Void> {
 
@@ -346,12 +555,11 @@ public class TodasPreguntas extends AppCompatActivity {
         }
     }
 
-    private void refreshActivity(){
+    private void refreshActivity() {
         // Refresh main activity upon close of dialog box
         Intent refresh = new Intent(this, MainActivity.class);
         //Mandamos paramentros a la siguiente ventana
         startActivity(refresh.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
         this.finish();
     }
-
 }

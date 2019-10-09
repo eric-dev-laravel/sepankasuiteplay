@@ -47,7 +47,7 @@ public class init_activity extends AppCompatActivity implements View.OnClickList
 
         cursor = manager.selectDataUsers();
 
-        /*FirebaseInstanceId.getInstance().getInstanceId()
+        FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
@@ -63,9 +63,9 @@ public class init_activity extends AppCompatActivity implements View.OnClickList
                         // Log and toast
                         String msg = TAG + token;
                         Log.d(TAG, msg);
-                        Toast.makeText(init_activity.this, msg, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(init_activity.this, msg, Toast.LENGTH_SHORT).show();
                     }
-                });*/
+                });
     }
 
     //Metodo que recupera que elemento fue dado clic
