@@ -1,5 +1,6 @@
 package com.sepankasuite.sepankaplay;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,7 +15,11 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -51,6 +56,18 @@ public class splash_activity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.iv_imageSplash);
         animation= AnimationUtils.loadAnimation(splash_activity.this,R.anim.pulse);
         startAnimation();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("NewQuestion").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                String msg = "Suscripcion Completa";
+                if (!task.isSuccessful()) {
+                    msg = "Suscripcion Fallo";
+                }
+                //Log.d("suscription", msg);
+                //Toast.makeText(splash_activity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //Generamos la funcion que lleva el contador interno del tiempo y lo que se hara cuando termine el tiempo
         new Handler().postDelayed(new Runnable() {

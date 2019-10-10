@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class init_activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -62,7 +61,7 @@ public class init_activity extends AppCompatActivity implements View.OnClickList
 
                         // Log and toast
                         String msg = TAG + token;
-                        Log.d(TAG, msg);
+                        //Log.d(TAG, msg);
                         //Toast.makeText(init_activity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
